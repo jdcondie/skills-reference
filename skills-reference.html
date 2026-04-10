@@ -1,0 +1,1991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Skills Reference</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --orange:       #E8541A;
+  --orange-light: #FFF3EE;
+  --orange-mid:   #F97440;
+  --black:        #111111;
+  --gray-900:     #1a1a1a;
+  --gray-700:     #3d3d3d;
+  --gray-500:     #717171;
+  --gray-300:     #d4d4d4;
+  --gray-100:     #f5f5f5;
+  --gray-50:      #fafafa;
+  --white:        #ffffff;
+  --green:        #16a34a;
+  --green-bg:     #dcfce7;
+  --blue:         #2563eb;
+  --blue-bg:      #eff6ff;
+  --yellow:       #ca8a04;
+  --yellow-bg:    #fef9c3;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--white);
+  color: var(--black);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ── NAV ─────────────────────────────────────── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--gray-300);
+  padding: 0 48px;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 56px;
+  gap: 20px;
+}
+.nav-logo { font-weight: 800; font-size: 16px; color: var(--black); letter-spacing: -0.02em; flex-shrink: 0; }
+.nav-logo span { color: var(--orange); }
+
+.nav-search {
+  flex: 1;
+  max-width: 440px;
+  position: relative;
+}
+.nav-search-icon {
+  position: absolute; left: 11px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--gray-300); font-size: 15px; pointer-events: none;
+}
+.nav-search input {
+  width: 100%;
+  background: var(--gray-50);
+  border: 1.5px solid var(--gray-300);
+  border-radius: 8px;
+  padding: 7px 12px 7px 34px;
+  font-size: 13px; font-family: inherit; color: var(--black);
+  outline: none; transition: border-color 0.15s, background 0.15s;
+}
+.nav-search input::placeholder { color: var(--gray-300); }
+.nav-search input:focus { border-color: var(--orange); background: var(--white); }
+
+.nav-right {
+  display: flex; align-items: center; gap: 12px; flex-shrink: 0;
+}
+.skill-count { font-size: 12px; color: var(--gray-500); white-space: nowrap; }
+.skill-count strong { color: var(--orange); font-weight: 700; }
+
+/* ── SECTION JUMP LINKS ─────────────────────────── */
+.nav-jumps {
+  display: flex; gap: 6px;
+}
+.nav-jump {
+  font-size: 11px; font-weight: 700; padding: 4px 10px;
+  border-radius: 6px; border: 1.5px solid var(--gray-300);
+  background: var(--white); color: var(--gray-700);
+  cursor: pointer; font-family: inherit; transition: all 0.15s;
+  text-decoration: none;
+}
+.nav-jump:hover { border-color: var(--orange); color: var(--orange); }
+.nav-jump.active { background: var(--orange); border-color: var(--orange); color: var(--white); }
+
+/* ── KBD HINT ────────────────────────────────────── */
+.search-kbd {
+  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+  font-size: 10px; font-weight: 600; color: var(--gray-300);
+  border: 1px solid var(--gray-300); border-radius: 4px;
+  padding: 1px 5px; font-family: inherit; pointer-events: none;
+  transition: opacity 0.15s;
+}
+.nav-search input:focus ~ .search-kbd { opacity: 0; }
+
+/* ── VIEW TOGGLE ─────────────────────────────────── */
+.view-toggle {
+  display: flex; border: 1.5px solid var(--gray-300); border-radius: 6px; overflow: hidden;
+}
+.view-btn {
+  padding: 5px 10px; font-size: 12px; font-family: inherit; font-weight: 600;
+  border: none; background: var(--white); color: var(--gray-500);
+  cursor: pointer; transition: all 0.15s; display: flex; align-items: center; gap: 4px;
+}
+.view-btn:first-child { border-right: 1px solid var(--gray-300); }
+.view-btn.active { background: var(--orange); color: var(--white); }
+.view-btn:hover:not(.active) { background: var(--gray-50); }
+
+/* ── LIST VIEW ───────────────────────────────────── */
+.card-grid.list-view {
+  grid-template-columns: 1fr !important;
+  gap: 4px;
+}
+.card-grid.list-view .card {
+  flex-direction: row;
+  align-items: center;
+  padding: 8px 12px;
+  gap: 12px;
+  border-radius: 6px;
+}
+.card-grid.list-view .card-top {
+  margin-bottom: 0; min-width: 160px; flex-shrink: 0;
+}
+.card-grid.list-view .card-category { display: none; }
+.card-grid.list-view .card-meta {
+  flex-direction: row; gap: 16px; margin-bottom: 0; flex: 1;
+}
+.card-grid.list-view .card-meta-row { flex: 1; }
+.card-grid.list-view .skill-name-btn {
+  margin-bottom: 0; width: auto; min-width: 180px; flex-shrink: 0;
+}
+
+/* ── FAVORITES ROW ───────────────────────────────── */
+.favorites-section {
+  padding: 16px 48px 0;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.favorites-label {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--gray-500); margin-bottom: 8px;
+  display: flex; align-items: center; gap: 6px;
+}
+.favorites-label span { color: var(--orange); }
+.favorites-row {
+  display: flex; gap: 6px; flex-wrap: wrap;
+}
+.fav-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: var(--orange-light);
+  border: 1px solid rgba(232,84,26,0.2);
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-family: 'SF Mono', 'Fira Code', 'Menlo', monospace;
+  font-size: 11px; font-weight: 600; color: var(--orange);
+  cursor: pointer; transition: all 0.15s;
+}
+.fav-chip:hover {
+  background: rgba(232,84,26,0.15);
+  border-color: rgba(232,84,26,0.4);
+}
+.fav-chip .fav-count {
+  font-size: 9px; font-weight: 700; color: var(--gray-500);
+  background: var(--white); border-radius: 100px;
+  padding: 1px 5px; font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* ── COLOR DOT ───────────────────────────────────── */
+.filter-dot {
+  display: inline-block; width: 8px; height: 8px;
+  border-radius: 50%; flex-shrink: 0; margin-right: 2px;
+}
+
+/* ── HERO ─────────────────────────────────────── */
+.hero {
+  text-align: center;
+  padding: 64px 40px 48px;
+  max-width: 860px;
+  margin: 0 auto;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--orange-light); color: var(--orange);
+  font-size: 12px; font-weight: 600; padding: 5px 12px;
+  border-radius: 100px; margin-bottom: 20px; letter-spacing: 0.02em;
+}
+.hero h1 {
+  font-size: clamp(32px, 5vw, 52px); font-weight: 800;
+  line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 14px;
+}
+.hero h1 span { color: var(--orange); }
+.hero p {
+  font-size: 16px; color: var(--gray-500);
+  max-width: 480px; margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* ── STATS BAR ─────────────────────────────────── */
+.stats-bar {
+  border-top: 1px solid var(--gray-300);
+  border-bottom: 1px solid var(--gray-300);
+  display: grid; grid-template-columns: repeat(4, 1fr); text-align: center;
+}
+.stat-item {
+  padding: 20px 16px;
+  border-right: 1px solid var(--gray-300);
+}
+.stat-item:last-child { border-right: none; }
+.stat-val {
+  font-size: 24px; font-weight: 800; color: var(--black);
+  letter-spacing: -0.02em; line-height: 1; margin-bottom: 3px;
+}
+.stat-val span { color: var(--orange); }
+.stat-label { font-size: 12px; color: var(--gray-500); font-weight: 500; }
+
+/* ── WIRING STRIP ──────────────────────────────── */
+.wiring-strip {
+  background: var(--gray-50);
+  border-bottom: 1px solid var(--gray-300);
+  padding: 14px 48px;
+  display: flex; align-items: center; gap: 0; overflow-x: auto;
+  scrollbar-width: none;
+}
+.wiring-strip::-webkit-scrollbar { display: none; }
+.wiring-label {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--gray-500); white-space: nowrap;
+  margin-right: 20px; padding-right: 20px;
+  border-right: 1px solid var(--gray-300); flex-shrink: 0;
+}
+.wiring-tags { display: flex; gap: 8px; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+.wiring-tags::-webkit-scrollbar { display: none; }
+.wiring-tag {
+  font-size: 12px; font-weight: 600; padding: 4px 11px;
+  border-radius: 6px; background: var(--white);
+  border: 1px solid var(--gray-300); color: var(--gray-700); white-space: nowrap;
+  cursor: pointer; transition: all 0.15s;
+}
+.wiring-tag:hover, .wiring-tag.active {
+  background: var(--orange-light);
+  border-color: rgba(232,84,26,0.3);
+  color: var(--orange);
+}
+
+/* ── SECTION ───────────────────────────────────── */
+.section-wrap {
+  padding: 56px 48px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.section-label {
+  font-size: 12px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--orange); margin-bottom: 8px;
+}
+.section-title {
+  font-size: clamp(22px, 3vw, 32px); font-weight: 800;
+  letter-spacing: -0.025em; line-height: 1.15;
+  color: var(--black); margin-bottom: 10px;
+}
+.section-sub {
+  font-size: 15px; color: var(--gray-500); max-width: 480px; line-height: 1.7;
+}
+.section-header-row {
+  display: flex; justify-content: space-between;
+  align-items: flex-end; margin-bottom: 28px;
+  flex-wrap: wrap; gap: 16px;
+}
+
+/* ── FILTER PILLS ──────────────────────────────── */
+.filter-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.filter-pill {
+  padding: 6px 16px; border-radius: 100px; font-size: 12px; font-weight: 600;
+  border: 1.5px solid var(--gray-300); background: var(--white);
+  color: var(--gray-700); cursor: pointer; transition: all 0.15s;
+  font-family: inherit;
+}
+.filter-pill:hover { border-color: var(--orange); color: var(--orange); }
+.filter-pill.active { background: var(--orange); border-color: var(--orange); color: var(--white); }
+
+/* ── CARD GRID ─────────────────────────────────── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.card {
+  background: var(--white);
+  border: 1.5px solid var(--gray-300);
+  border-radius: 10px;
+  padding: 11px;
+  position: relative;
+  transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
+  display: flex; flex-direction: column;
+  opacity: 0;
+  animation: slideUp 0.35s ease forwards;
+  border-left: 4px solid var(--gray-300);
+}
+.card:hover {
+  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+  transform: translateY(-2px);
+}
+
+/* ── Category border colors ─────────────────────── */
+.card[data-cat="Agency / Client Playbooks"]  { border-left-color: var(--green); }
+.card[data-cat="Paid Ads"]                   { border-left-color: #ca8a04; }
+.card[data-cat="Meta Ads"]                   { border-left-color: #2563eb; }
+.card[data-cat="DTC Creative"]               { border-left-color: var(--orange); }
+.card[data-cat="PMM / Positioning"]          { border-left-color: #7c3aed; }
+.card[data-cat="Email"]                      { border-left-color: #0891b2; }
+.card[data-cat="Writing / Editing"]          { border-left-color: #64748b; }
+.card[data-cat="Newsletter / Content"]       { border-left-color: #ea580c; }
+.card[data-cat="Lead Magnets"]               { border-left-color: #dc2626; }
+.card[data-cat="Research / Interviews"]      { border-left-color: #0d9488; }
+.card[data-cat="Design / Visual / Brand"]    { border-left-color: #c026d3; }
+.card[data-cat="Frontend / Build"]           { border-left-color: #2563eb; }
+.card[data-cat="File / Output"]              { border-left-color: #64748b; }
+.card[data-cat="Notion"]                     { border-left-color: #111; }
+.card[data-cat="System / Claude Code"]       { border-left-color: #111; }
+.card[data-cat="Skill Creation"]             { border-left-color: var(--orange); }
+
+.card:hover { border-left-width: 4px; }
+
+/* Playbook type borders */
+.card[data-pbtype="agency"]     { border-left-color: var(--green); }
+.card[data-pbtype="universal"]  { border-left-color: #2563eb; }
+.card[data-pbtype="specialist"] { border-left-color: var(--orange); }
+.card.hidden { display: none; }
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* stagger */
+.card:nth-child(1)  { animation-delay: 0.02s; }
+.card:nth-child(2)  { animation-delay: 0.04s; }
+.card:nth-child(3)  { animation-delay: 0.06s; }
+.card:nth-child(4)  { animation-delay: 0.08s; }
+.card:nth-child(5)  { animation-delay: 0.10s; }
+.card:nth-child(6)  { animation-delay: 0.12s; }
+.card:nth-child(7)  { animation-delay: 0.14s; }
+.card:nth-child(8)  { animation-delay: 0.16s; }
+.card:nth-child(9)  { animation-delay: 0.18s; }
+.card:nth-child(10) { animation-delay: 0.20s; }
+.card:nth-child(11) { animation-delay: 0.22s; }
+.card:nth-child(12) { animation-delay: 0.24s; }
+
+/* ── CARD INNARDS ──────────────────────────────── */
+.card-top {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 4px;
+}
+.card-icon {
+  width: 22px; height: 22px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.card-icon svg { width: 22px; height: 22px; display: block; }
+.card-name {
+  font-size: 13px; font-weight: 800; color: var(--black);
+  letter-spacing: -0.02em; line-height: 1.2; flex: 1;
+}
+
+.card-use {
+  font-size: 11px; color: var(--gray-500);
+  font-style: italic; line-height: 1.4;
+  margin-bottom: 8px;
+}
+
+.card-category {
+  font-size: 9.5px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--gray-300); margin-bottom: 4px;
+}
+
+/* ── SKILL NAME — the clickable thing ─────────── */
+.skill-name-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: var(--orange-light);
+  border: 1px solid rgba(232,84,26,0.25);
+  border-radius: 4px;
+  padding: 3px 7px;
+  font-family: 'SF Mono', 'Fira Code', 'Menlo', 'Consolas', monospace;
+  font-size: 10.5px; font-weight: 600;
+  color: var(--orange);
+  cursor: pointer;
+  transition: all 0.13s;
+  word-break: break-all;
+  text-align: left;
+  line-height: 1.4;
+  margin-bottom: 7px;
+  width: 100%;
+}
+.skill-name-btn:hover {
+  background: rgba(232,84,26,0.18);
+  border-color: rgba(232,84,26,0.5);
+  transform: translateX(1px);
+}
+.skill-name-btn:active { transform: translateX(1px) scale(0.99); }
+.skill-name-btn.copied {
+  background: var(--green-bg);
+  border-color: rgba(22,163,74,0.3);
+  color: var(--green);
+}
+
+.copy-icon {
+  opacity: 0; transition: opacity 0.13s;
+  flex-shrink: 0; margin-left: auto; font-size: 11px;
+}
+.skill-name-btn:hover .copy-icon { opacity: 1; }
+
+.card-desc {
+  font-size: 11.5px; color: var(--gray-700);
+  line-height: 1.55; flex: 1;
+}
+
+/* ── Structured card meta ───────────────────────── */
+.card-meta {
+  display: flex; flex-direction: column; gap: 4px;
+  margin-bottom: 8px; flex: 1;
+}
+.card-meta-row {
+  display: flex; gap: 6px; font-size: 11px; line-height: 1.45;
+}
+.card-meta-label {
+  font-weight: 700; color: var(--gray-500);
+  min-width: 42px; flex-shrink: 0;
+  text-transform: uppercase; font-size: 9px;
+  letter-spacing: 0.05em; padding-top: 1px;
+}
+.card-meta-val {
+  color: var(--gray-700);
+}
+
+/* ── Playbook card overrides ────────────────────── */
+.pb-card {
+  cursor: pointer;
+  opacity: 1 !important;
+  animation: none !important;
+}
+.pb-card:hover {
+  border-color: var(--gray-300);
+}
+.pb-header {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 4px;
+}
+.pb-badge {
+  font-size: 9px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; padding: 2px 7px; border-radius: 4px;
+}
+.pb-name {
+  font-size: 20px; font-weight: 800; color: var(--black);
+  line-height: 1.2; margin-bottom: 12px; letter-spacing: -0.02em;
+}
+.pb-meta {
+  display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px;
+}
+.pb-meta-row {
+  display: flex; gap: 8px; font-size: 11.5px; line-height: 1.4;
+}
+.pb-meta-icon {
+  flex-shrink: 0; width: 16px; text-align: center; font-size: 12px;
+}
+.pb-meta-label {
+  font-weight: 700; color: var(--gray-500); min-width: 48px; flex-shrink: 0;
+}
+.pb-meta-val {
+  color: var(--gray-700);
+}
+.pb-steps {
+  border-top: 1px solid var(--gray-100);
+  padding-top: 8px;
+  display: flex; flex-direction: column; gap: 2px;
+}
+.pb-step {
+  font-family: 'SF Mono','Fira Code','Menlo','Consolas', monospace;
+  font-size: 10.5px; color: var(--gray-700);
+  display: flex; align-items: center; gap: 5px; padding: 2px 0;
+}
+.pb-step-num {
+  color: var(--gray-300); font-weight: 700; min-width: 16px;
+}
+.pb-copy-hint {
+  margin-left: auto; font-size: 10px; color: var(--gray-300);
+  font-weight: 600; transition: color 0.15s;
+}
+
+/* ── ORANGE BREAK ──────────────────────────────── */
+.orange-section {
+  background: var(--orange); padding: 60px 48px; text-align: center;
+}
+.orange-section h2 {
+  font-size: clamp(24px, 3.5vw, 38px); font-weight: 800;
+  color: var(--white); letter-spacing: -0.025em; line-height: 1.15; margin-bottom: 10px;
+}
+.orange-section p {
+  font-size: 15px; color: rgba(255,255,255,0.8);
+  max-width: 440px; margin: 0 auto; line-height: 1.7;
+}
+
+/* ── EMPTY STATE ───────────────────────────────── */
+.empty-state {
+  text-align: center; padding: 80px 24px;
+  display: none;
+}
+.empty-state h3 {
+  font-size: 20px; font-weight: 800;
+  color: var(--black); margin-bottom: 8px;
+}
+.empty-state p { font-size: 14px; color: var(--gray-500); }
+
+/* ── TOAST ─────────────────────────────────────── */
+.toast {
+  position: fixed; bottom: 28px; left: 50%;
+  transform: translateX(-50%) translateY(16px);
+  background: var(--black); color: var(--white);
+  font-size: 12px; font-weight: 600;
+  padding: 10px 18px; border-radius: 8px;
+  opacity: 0; transition: opacity 0.18s, transform 0.18s;
+  pointer-events: none; z-index: 9998;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  display: flex; align-items: center; gap: 8px;
+  white-space: nowrap;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+}
+.toast-icon { color: var(--orange); font-size: 14px; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ── FOOTER ─────────────────────────────────────── */
+footer {
+  background: var(--black); padding: 32px 48px;
+  display: flex; justify-content: space-between;
+  align-items: center; flex-wrap: wrap; gap: 12px;
+}
+.footer-logo { font-weight: 800; font-size: 15px; color: var(--white); letter-spacing: -0.02em; }
+.footer-logo span { color: var(--orange); }
+footer p { font-size: 12px; color: #555; }
+
+/* ── RESPONSIVE ─────────────────────────────────── */
+@media (max-width: 960px) {
+  .card-grid { grid-template-columns: repeat(3, 1fr); }
+  #playbookGrid { grid-template-columns: repeat(2, 1fr) !important; }
+  nav { padding: 0 24px; }
+  .section-wrap { padding: 40px 24px; }
+  .wiring-strip { padding: 14px 24px; }
+  .stats-bar { grid-template-columns: repeat(2, 1fr); }
+  footer { padding: 24px; }
+}
+@media (max-width: 600px) {
+  .card-grid { grid-template-columns: repeat(2, 1fr); }
+  #playbookGrid { grid-template-columns: 1fr !important; }
+  .stats-bar { grid-template-columns: repeat(2, 1fr); }
+  nav { padding: 0 16px; }
+  .nav-search { display: none; }
+  .orange-section { padding: 40px 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Skills<span>.</span></div>
+  <div class="nav-search">
+    <span class="nav-search-icon">⌕</span>
+    <input type="search" id="searchInput" placeholder="Search skills..." autocomplete="off" spellcheck="false">
+    <span class="search-kbd">/</span>
+  </div>
+  <div class="nav-right">
+    <div class="nav-jumps">
+      <a class="nav-jump" href="#playbooksSection">Playbooks</a>
+      <a class="nav-jump" href="#skillsSection">Skills</a>
+    </div>
+    <div class="skill-count" id="skillCount"></div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">⚡ Claude Code · Desktop App</div>
+  <h1>Every skill.<br><span>One place.</span></h1>
+  <p>Click any skill name to copy it to your clipboard. Search or filter by category to find what you need fast.</p>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="stat-val" id="statTotal"></div>
+    <div class="stat-label">Total Skills</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-val">16</div>
+    <div class="stat-label">Categories</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-val">17</div>
+    <div class="stat-label">Client Playbooks</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-val">1<span>click</span></div>
+    <div class="stat-label">Copy to Clipboard</div>
+  </div>
+</div>
+
+<!-- FAVORITES -->
+<div class="favorites-section" id="favoritesSection" style="display:none;">
+  <div class="favorites-label"><span>★</span> Frequently Used</div>
+  <div class="favorites-row" id="favoritesRow"></div>
+</div>
+
+<!-- PLAYBOOKS SECTION -->
+<div class="section-wrap" id="playbooksSection">
+  <div class="section-header-row">
+    <div>
+      <div class="section-label">Sequential Playbooks</div>
+      <div class="section-title">17 playbooks. Chained workflows.</div>
+      <div class="section-sub">Click any playbook to copy the full prompt chain to your clipboard.</div>
+    </div>
+  </div>
+
+  <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px;">
+    <button class="filter-pill active" onclick="filterPlaybooks('all', this)">All</button>
+    <button class="filter-pill" onclick="filterPlaybooks('agency', this)">Agency</button>
+    <button class="filter-pill" onclick="filterPlaybooks('universal', this)">Universal</button>
+    <button class="filter-pill" onclick="filterPlaybooks('specialist', this)">Specialist</button>
+  </div>
+
+  <div class="card-grid" id="playbookGrid" style="grid-template-columns: repeat(3, 1fr);"></div>
+</div>
+
+<!-- WIRING STRIP -->
+<div class="wiring-strip">
+  <div class="wiring-label">Categories</div>
+  <div class="wiring-tags" id="wiringTags"></div>
+</div>
+
+<!-- MAIN SECTION -->
+<div class="section-wrap" id="skillsSection">
+  <div class="section-header-row">
+    <div>
+      <div class="section-label" id="sectionLabel">All Skills</div>
+      <div class="section-title" id="sectionTitle">Your full skill library</div>
+      <div class="section-sub">Click any skill name to copy the slash command. Use the filters below to browse by category.</div>
+    </div>
+    <div class="view-toggle" id="viewToggle">
+      <button class="view-btn active" data-view="grid" title="Grid view">▦ Grid</button>
+      <button class="view-btn" data-view="list" title="List view">☰ List</button>
+    </div>
+  </div>
+
+  <!-- FILTER PILLS -->
+  <div class="filter-row" id="filterRow" style="margin-bottom: 28px;"></div>
+
+  <!-- CARD GRID -->
+  <div class="card-grid" id="cardGrid"></div>
+
+  <!-- EMPTY STATE -->
+  <div class="empty-state" id="emptyState">
+    <h3>No skills found</h3>
+    <p>Try a different search term or clear the filter.</p>
+  </div>
+</div>
+
+<!-- ORANGE BREAK -->
+<div class="orange-section">
+  <h2 id="orangeBreakHeadline"></h2>
+  <p>Click any skill name above to copy it, then paste it directly into Claude Code.</p>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Skills<span>.</span></div>
+  <p>Claude Code · Desktop App · Personal Reference</p>
+  <p>Click any skill to copy · Search to filter</p>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <span class="toast-icon">⎘</span>
+  <span id="toastText"></span>
+</div>
+
+<script>
+const NAMES = {
+  // System / Claude Code
+  "update-config":                                              "Behavior Config",
+  "keybindings-help":                                           "Keyboard Shortcuts",
+  "simplify":                                                   "Code Simplifier",
+  "loop":                                                       "Task Loop",
+  "schedule":                                                   "Task Scheduler",
+  "claude-api":                                                 "API Builder",
+  "claude-code-setup:claude-automation-recommender":            "Automation Advisor",
+  "skill-creator:skill-creator":                                "Skill Builder",
+  // Email
+  "anthropic-skills:jay-email-drafter":                         "Email Drafter",
+  "email-copy-optimizer":                                       "Email Optimizer",
+  "email-copy-optimizer-editor":                                "Email Editor",
+  "email-newsletter-content-ideator":                           "Content Ideator",
+  "email-subject-line-generator":                               "Subject Lines",
+  "generate-email-subject-lines":                               "Subject Generator",
+  "i-made-this-for-you-email-writer":                           "Personal Outreach",
+  "write-an-i-made-this-for-you-email":                         "I Made This Email",
+  "pain-is-the-pitch-email-rewriter":                           "Pain-Led Rewrite",
+  "newsletter-welcome-email-writer":                            "Newsletter Welcome",
+  "lead-magnet-welcome-email-writer":                           "Magnet Welcome",
+  "weekly-roundup-email-writer":                                "Weekly Roundup",
+  "write-a-weekly-roundup-email":                               "Roundup Writer",
+  // Newsletter / Content
+  "weekly-newsletter-workflow":                                 "Newsletter Workflow",
+  "newsletter-workshop":                                        "Newsletter Workshop",
+  "emailsequence-workshop":                                     "Sequence Builder",
+  "brainstorm-email-and-newsletter-content-ideas":              "Content Brainstorm",
+  "brainstorm-a-30-day-content-series":                         "30-Day Series",
+  "long-form-research-writer":                                  "Long-Form Writer",
+  "longformtweets-workshop":                                    "Tweet Threads",
+  "repurpose-workshop":                                         "Content Repurposer",
+  "pb05-content-batch":                                         "Content Batch",
+  // Writing / Editing
+  "sharp-edit":                                                 "Sharp Edit",
+  "antislop-workshop":                                          "Slop Remover",
+  "sentence-editor":                                            "Sentence Polish",
+  "editing-workshop":                                           "Editing Workshop",
+  "formatting-upgrade":                                         "Format Upgrade",
+  "anthropic-skills:formatting-upgrade":                        "Format Upgrade",
+  "pb07-copy-concision-pass":                                   "Concision Pass",
+  "7-critical-readers":                                         "7 Critical Readers",
+  "copywriting-workshop":                                       "Copy Workshop",
+  "interesting-workshop":                                       "Engagement Workshop",
+  "turn-chatgpt-into-copywriting-legend-gary-halbert":          "Gary Halbert Mode",
+  "anthropic-skills:markdown-formatter":                        "Markdown Formatter",
+  "anthropic-skills:headline-writer":                           "Headline Writer",
+  // Lead Magnets
+  "leadmagnet-workshop":                                        "Magnet Builder",
+  "brainstorm-lead-magnet-collaboration-ideas":                 "Collab Magnet Ideas",
+  "brainstorm-ai-powered-lead-magnet-ideas":                    "AI Magnet Ideas",
+  "brainstorm-money-making-lead-magnet-ideas":                  "Revenue Magnet Ideas",
+  "brainstorm-hyper-relevant-lead-magnet-ideas":                "Hyper-Relevant Ideas",
+  "brainstorm-a-curation-lead-magnet":                          "Curation Magnet",
+  "analyze-my-content-and-brainstorm-10-lead-magnet-ideas":     "Content → Magnets",
+  "generate-lead-magnet-names":                                 "Magnet Namer",
+  "generate-mockup-images-for-a-lead-magnet-landing-page":      "Magnet Mockups",
+  "generate-an-email-course-value-proposition":                 "Course Value Prop",
+  "create-the-linkedin-post-for-a-viral-giveaway-lead-magnet":  "Giveaway LinkedIn Post",
+  // Paid Ads
+  "pb02-paid-ads-sprint":                                       "Ads Sprint",
+  "pb19-weekly-ad-decisions":                                   "Weekly Ad Decisions",
+  "pb13-creative-testing-cadence":                              "Creative Testing",
+  "pb17-campaign-hygiene-audit":                                "Campaign Audit",
+  "pb06-creative-brief-builder":                                "Creative Brief",
+  "competitive-ads-extractor":                                  "Competitor Ads",
+  "anthropic-skills:competitive-ads-extractor":                 "Competitor Ads",
+  "ads-ab-hypotheses":                                          "A/B Hypotheses",
+  "ads-budget-review":                                          "Budget Review",
+  "ads-audience-segmentation":                                  "Audience Segments",
+  "ads-creative-fatigue":                                       "Creative Fatigue",
+  // PMM / Positioning
+  "positioning-audit":                                          "Positioning Audit",
+  "icp-definition":                                             "ICP Builder",
+  "messaging-hierarchy":                                        "Messaging Map",
+  "competitive-landing-page":                                   "Competitor Pages",
+  "message-market-fit":                                         "Message-Market Fit",
+  "voc-synthesis":                                              "VoC Synthesis",
+  // Meta Ads
+  "meta-full-account-audit":                                    "Account Audit",
+  "meta-campaign-architecture":                                 "Campaign Architecture",
+  "meta-cpa-early-warning":                                     "CPA Early Warning",
+  "meta-creative-breakdown":                                    "Creative Breakdown",
+  "meta-budget-reallocation":                                   "Budget Reallocation",
+  "meta-audience-audit":                                        "Audience Audit",
+  "meta-fatigue-scan":                                          "Fatigue Scanner",
+  "meta-weekly-report":                                         "Weekly Report",
+  // DTC Creative
+  "dtc-ad-variations":                                          "Ad Variations",
+  "dtc-hook-writer":                                            "Hook Writer",
+  "dtc-brief-generator":                                        "Brief Generator",
+  "dtc-review-miner":                                           "Review Miner",
+  "dtc-content-repurpose":                                      "Content Repurpose",
+  "dtc-competitor-audit":                                       "Competitor Audit",
+  "dtc-fatigue-detector":                                       "Fatigue Detector",
+  "dtc-advertorial-builder":                                    "Advertorial Builder",
+  "dtc-static-ads":                                             "Static Ads",
+  "dtc-report-writer":                                          "Report Writer",
+  // Agency / Client Playbooks
+  "pb01-new-client-onboarding":                                 "Client Onboarding",
+  "pb03-monthly-retainer-pack":                                 "Monthly Retainer",
+  "pb04-agency-new-biz":                                        "New Biz Dev",
+  "pb08-performance-pulse":                                     "Performance Pulse",
+  "pb09-biweekly-client-update":                                "Client Update",
+  "pb11-report-template-population":                            "Report Filler",
+  "pb12-sales-call-loop":                                       "Sales Call Loop",
+  "pb14-margin-math":                                           "Margin Calculator",
+  "pb16-objection-reframe":                                     "Objection Reframe",
+  "pb18-framework-extraction":                                  "Framework Extractor",
+  "pb10-chaos-to-checklist":                                    "Chaos → Checklist",
+  "pb20-service-landing-page":                                  "Service Page",
+  "client-strategy-report":                                     "Strategy Report",
+  "sales-proposal-workflow":                                    "Sales Proposal",
+  "ops-briefing-workflow":                                      "Ops Briefing",
+  "anthropic-skills:offer-strategy-builder":                    "Offer Strategy",
+  "offerarchitect-workshop":                                    "Offer Architect",
+  // Research / Interviews
+  "user-interview-analyzer":                                    "Interview Analyzer",
+  "business-interview-workshop":                                "Business Interview",
+  "keywordresearch-workshop":                                   "Keyword Research",
+  "anthropic-skills:lead-research-assistant":                   "Lead Research",
+  "anthropic-skills:content-research-writer":                   "Research Writer",
+  "anthropic-skills:seo-keyword-optimization":                  "SEO Optimizer",
+  // Skill Creation
+  "skillcreator-interview-workshop":                            "Skill Interview",
+  "anthropic-skills:skillcreator-interview-workshop":           "Skill Interview",
+  "skillcreator-extract-workshop":                              "Skill Extractor",
+  "anthropic-skills:skillcreator-extract-workshop":             "Skill Extractor",
+  // Design / Visual / Brand
+  "brand-campaign-calendar":                                    "Campaign Calendar",
+  "anthropic-skills:brand-campaign-calendar":                   "Campaign Calendar",
+  "anthropic-skills:brand-guidelines":                          "Brand Guidelines",
+  "anthropic-skills:theme-factory":                             "Theme Factory",
+  "anthropic-skills:algorithmic-art":                           "Algorithmic Art",
+  "anthropic-skills:performance-imagery-script":                "Ad Imagery Script",
+  "nano-banana-image-gen":                                      "Image Generator",
+  "visualizations":                                             "Data Visualizer",
+  "excalidraw-diagram":                                         "Diagram Builder",
+  "figma:implement-design":                                     "Figma → Code",
+  "figma:code-connect-components":                              "Component Linker",
+  "figma:create-design-system-rules":                           "Design System Rules",
+  // Frontend / Build
+  "frontend-design":                                            "UI Designer",
+  "frontend-workshop":                                          "Frontend Workshop",
+  "coworkcamp-page-builder":                                    "Cowork Camp Pages",
+  "landingpage-workshop":                                       "Landing Page Workshop",
+  "anthropic-skills:saas-landing-page":                         "SaaS Landing Page",
+  "anthropic-skills:site-preview-builder":                      "Site Preview",
+  "anthropic-skills:web-artifacts-builder":                     "Web Components",
+  "video-to-website":                                           "Video → Website",
+  // File / Output
+  "file-organizer":                                             "File Organizer",
+  "anthropic-skills:file-organizer":                            "File Organizer",
+  "anthropic-skills:pdf":                                       "PDF Exporter",
+  "anthropic-skills:pptx":                                      "PowerPoint Builder",
+  "anthropic-skills:docx":                                      "Word Doc Builder",
+  "anthropic-skills:xlsx":                                      "Spreadsheet Builder",
+  // Notion
+  "Notion:create-page":                                         "Create Page",
+  "Notion:create-task":                                         "Create Task",
+  "Notion:create-database-row":                                 "Add Database Row",
+  "Notion:database-query":                                      "Query Database",
+  "Notion:find":                                                "Find Content",
+  "Notion:search":                                              "Search Workspace",
+  "Notion:tasks:setup":                                         "Task System Setup",
+  "Notion:tasks:build":                                         "Task System Build",
+  "Notion:tasks:plan":                                          "Task Planner",
+  "Notion:tasks:explain-diff":                                  "Task Diff Explainer",
+};
+
+const ICONS = {
+  "System / Claude Code": `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="3" width="20" height="18" rx="2" fill="#111"/><polyline points="6.5,9 10.5,12 6.5,15" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><line x1="13" y1="15" x2="18" y2="15" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>`,
+
+  "Email": `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="5" width="20" height="14" rx="1.5" stroke="#111" stroke-width="1.8"/><polyline points="2,5 12,14 22,5" stroke="#111" stroke-width="1.8" stroke-linejoin="round"/></svg>`,
+
+  "Newsletter / Content": `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="2" width="16" height="20" rx="1.5" stroke="#111" stroke-width="1.8"/><line x1="7" y1="8" x2="17" y2="8" stroke="#111" stroke-width="1.8" stroke-linecap="round"/><line x1="7" y1="12" x2="17" y2="12" stroke="#111" stroke-width="1.8" stroke-linecap="round"/><line x1="7" y1="16" x2="13" y2="16" stroke="#111" stroke-width="1.8" stroke-linecap="round"/></svg>`,
+
+  "Writing / Editing": `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17 3l4 4L8 20H4v-4L17 3z" stroke="#111" stroke-width="1.8" stroke-linejoin="round"/><line x1="14" y1="6" x2="18" y2="10" stroke="#111" stroke-width="1.8"/></svg>`,
+
+  "Lead Magnets": `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 4h3v9a2 2 0 0 0 4 0V4h3v9a5 5 0 0 1-10 0V4z" stroke="#111" stroke-width="1.8" stroke-linejoin="round"/><rect x="7" y="2" width="3" height="3" fill="#111"/><rect x="14" y="2" width="3" height="3" fill="#111"/></svg>`,
+
+  "Paid Ads": `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 9v6h4l7 4.5V4.5L7 9H3z" stroke="#111" stroke-width="1.8" stroke-linejoin="round"/><path d="M18 9a4 4 0 0 1 0 6" stroke="#111" stroke-width="1.8" stroke-linecap="round"/><path d="M21 7a7 7 0 0 1 0 10" stroke="#111" stroke-width="1.8" stroke-linecap="round"/></svg>`,
+
+  "Agency / Client Playbooks": `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="8" width="20" height="13" rx="1.5" stroke="#111" stroke-width="1.8"/><path d="M9 8V6a2 2 0 0 1 4 0v2" stroke="#111" stroke-width="1.8" stroke-linejoin="round"/><line x1="7" y1="14" x2="17" y2="14" stroke="#111" stroke-width="1.8" stroke-linecap="round"/><line x1="7" y1="17" x2="13" y2="17" stroke="#111" stroke-width="1.8" stroke-linecap="round"/></svg>`,
+
+  "Research / Interviews": `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="7" stroke="#111" stroke-width="1.8"/><line x1="15.5" y1="15.5" x2="21" y2="21" stroke="#111" stroke-width="2.5" stroke-linecap="round"/></svg>`,
+
+  "Skill Creation": `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" stroke="#111" stroke-width="1.8" stroke-linejoin="round"/></svg>`,
+
+  "Design / Visual / Brand": `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="20" height="20" stroke="#111" stroke-width="1.8"/><rect x="6" y="6" width="12" height="12" stroke="#111" stroke-width="1.5"/><rect x="10" y="10" width="4" height="4" fill="#111"/></svg>`,
+
+  "Frontend / Build": `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="3" width="20" height="14" rx="1.5" stroke="#111" stroke-width="1.8"/><line x1="8" y1="21" x2="16" y2="21" stroke="#111" stroke-width="1.8" stroke-linecap="round"/><line x1="12" y1="17" x2="12" y2="21" stroke="#111" stroke-width="1.8" stroke-linecap="round"/><polyline points="7,8 10,11 7,14" stroke="#111" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><line x1="13" y1="14" x2="17" y2="14" stroke="#111" stroke-width="1.8" stroke-linecap="round"/></svg>`,
+
+  "File / Output": `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" stroke="#111" stroke-width="1.8" stroke-linejoin="round"/><polyline points="14,2 14,8 20,8" stroke="#111" stroke-width="1.8" stroke-linejoin="round"/><line x1="12" y1="12" x2="12" y2="18" stroke="#111" stroke-width="1.8" stroke-linecap="round"/><polyline points="9,15 12,18 15,15" stroke="#111" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+
+  "Notion": `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="7" height="7" stroke="#111" stroke-width="1.8"/><rect x="14" y="3" width="7" height="7" fill="#111"/><rect x="3" y="14" width="7" height="7" fill="#111"/><rect x="14" y="14" width="7" height="7" stroke="#111" stroke-width="1.8"/></svg>`,
+
+  "PMM / Positioning": `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9" stroke="#111" stroke-width="1.8"/><circle cx="12" cy="12" r="5" stroke="#111" stroke-width="1.8"/><circle cx="12" cy="12" r="1.5" fill="#111"/><line x1="12" y1="3" x2="12" y2="7" stroke="#111" stroke-width="1.8"/><line x1="12" y1="17" x2="12" y2="21" stroke="#111" stroke-width="1.8"/><line x1="3" y1="12" x2="7" y2="12" stroke="#111" stroke-width="1.8"/><line x1="17" y1="12" x2="21" y2="12" stroke="#111" stroke-width="1.8"/></svg>`,
+
+  "Meta Ads": `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 7l10 5 10-5-10-5z" stroke="#111" stroke-width="1.8" stroke-linejoin="round"/><path d="M2 17l10 5 10-5" stroke="#111" stroke-width="1.8" stroke-linejoin="round"/><path d="M2 12l10 5 10-5" stroke="#111" stroke-width="1.8" stroke-linejoin="round"/></svg>`,
+
+  "DTC Creative": `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="20" height="20" rx="2" stroke="#111" stroke-width="1.8"/><path d="M8 8l8 8M16 8l-8 8" stroke="#111" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="12" r="3" stroke="#111" stroke-width="1.5"/></svg>`,
+};
+
+const SKILLS = [
+  // ── System / Claude Code ──────────────────────
+  { cat: "System / Claude Code", icon: "⚙️", iconClass: "icon-gray",
+    n: "update-config",
+    d: "Edits settings.json to configure Claude Code behaviors and hooks",
+    u: "Setting up automated behaviors" },
+  { cat: "System / Claude Code", icon: "⚙️", iconClass: "icon-gray",
+    n: "keybindings-help",
+    d: "Edits keybindings.json for custom keyboard shortcuts",
+    u: "Rebinding keys, adding chord shortcuts" },
+  { cat: "System / Claude Code", icon: "⚙️", iconClass: "icon-gray",
+    n: "simplify",
+    d: "Reviews changed code for reuse, quality, and efficiency — then fixes issues",
+    u: "After writing code that feels bloated" },
+  { cat: "System / Claude Code", icon: "⚙️", iconClass: "icon-gray",
+    n: "loop",
+    d: "Runs a prompt or slash command on a recurring interval",
+    u: "Polling, status checks, repeated tasks" },
+  { cat: "System / Claude Code", icon: "⚙️", iconClass: "icon-gray",
+    n: "schedule",
+    d: "Creates and manages scheduled remote agents on cron schedules",
+    u: "Automating recurring Claude tasks" },
+  { cat: "System / Claude Code", icon: "⚙️", iconClass: "icon-gray",
+    n: "claude-api",
+    d: "Scaffolds apps using the Claude API / Anthropic SDK",
+    u: "Building AI-powered tools" },
+  { cat: "System / Claude Code", icon: "⚙️", iconClass: "icon-gray",
+    n: "claude-code-setup:claude-automation-recommender",
+    d: "Recommends Claude Code automations based on your workflow",
+    u: "Setting up or expanding Claude Code" },
+  { cat: "System / Claude Code", icon: "⚙️", iconClass: "icon-gray",
+    n: "skill-creator:skill-creator",
+    d: "Builds new custom skills",
+    u: "Creating a reusable skill" },
+
+  // ── Email ─────────────────────────────────────
+  { cat: "Email", icon: "✉️", iconClass: "icon-blue",
+    n: "anthropic-skills:jay-email-drafter",
+    d: "Drafts emails in Jay's voice",
+    u: "Any email where you want Claude writing as you" },
+  { cat: "Email", icon: "✉️", iconClass: "icon-blue",
+    n: "email-copy-optimizer",
+    d: "Optimizes email copy for conversion",
+    u: "Reviewing and tightening a full email" },
+  { cat: "Email", icon: "✉️", iconClass: "icon-blue",
+    n: "email-copy-optimizer-editor",
+    d: "Editor pass on email copy",
+    u: "Line-level edits and cleanup of drafts" },
+  { cat: "Email", icon: "✉️", iconClass: "icon-blue",
+    n: "email-newsletter-content-ideator",
+    d: "Brainstorms email and newsletter content ideas",
+    u: "Stuck on what to send next" },
+  { cat: "Email", icon: "✉️", iconClass: "icon-blue",
+    n: "email-subject-line-generator",
+    d: "Generates subject line options",
+    u: "Before sending any email campaign" },
+  { cat: "Email", icon: "✉️", iconClass: "icon-blue",
+    n: "i-made-this-for-you-email-writer",
+    d: "Writes a personal 'I made this for you' email",
+    u: "Warm outreach or lead magnet delivery" },
+  { cat: "Email", icon: "✉️", iconClass: "icon-blue",
+    n: "pain-is-the-pitch-email-rewriter",
+    d: "Rewrites emails to lead with pain before pitch",
+    u: "Emails that feel too benefit-heavy" },
+  { cat: "Email", icon: "✉️", iconClass: "icon-blue",
+    n: "newsletter-welcome-email-writer",
+    d: "Writes welcome emails for new newsletter subscribers",
+    u: "New subscriber onboarding sequence" },
+  { cat: "Email", icon: "✉️", iconClass: "icon-blue",
+    n: "lead-magnet-welcome-email-writer",
+    d: "Writes welcome emails for lead magnet opt-ins",
+    u: "Lead magnet delivery email" },
+  { cat: "Email", icon: "✉️", iconClass: "icon-blue",
+    n: "weekly-roundup-email-writer",
+    d: "Writes weekly roundup-style emails",
+    u: "Consistent weekly send format" },
+
+  // ── Newsletter / Content ──────────────────────
+  { cat: "Newsletter / Content", icon: "📰", iconClass: "icon-orange",
+    n: "weekly-newsletter-workflow",
+    d: "Full workflow for producing a weekly newsletter",
+    u: "Weekly send process from blank to done" },
+  { cat: "Newsletter / Content", icon: "📰", iconClass: "icon-orange",
+    n: "newsletter-workshop",
+    d: "Workshop-style build of a newsletter issue",
+    u: "Collaborative drafting session" },
+  { cat: "Newsletter / Content", icon: "📰", iconClass: "icon-orange",
+    n: "emailsequence-workshop",
+    d: "Builds out an email sequence",
+    u: "Nurture sequences, launches, onboarding flows" },
+  { cat: "Newsletter / Content", icon: "📰", iconClass: "icon-orange",
+    n: "long-form-research-writer",
+    d: "Writes long-form pieces with research backing",
+    u: "Deep-dive essays, thought leadership" },
+  { cat: "Newsletter / Content", icon: "📰", iconClass: "icon-orange",
+    n: "longformtweets-workshop",
+    d: "Writes long-form tweet threads",
+    u: "Twitter/X content" },
+  { cat: "Newsletter / Content", icon: "📰", iconClass: "icon-orange",
+    n: "repurpose-workshop",
+    d: "Repurposes existing content into new formats",
+    u: "Squeezing more from one asset" },
+  { cat: "Newsletter / Content", icon: "📰", iconClass: "icon-orange",
+    n: "pb05-content-batch",
+    d: "Playbook for batching content creation",
+    u: "Batch content production sessions" },
+
+  // ── Writing / Editing ─────────────────────────
+  { cat: "Writing / Editing", icon: "✏️", iconClass: "icon-gray",
+    n: "sharp-edit",
+    d: "Makes writing sharper, tighter, and more direct",
+    u: "Final pass on any piece of writing" },
+  { cat: "Writing / Editing", icon: "✏️", iconClass: "icon-gray",
+    n: "antislop-workshop",
+    d: "Removes AI slop and generic writing patterns",
+    u: "Cleaning up AI-generated drafts" },
+  { cat: "Writing / Editing", icon: "✏️", iconClass: "icon-gray",
+    n: "sentence-editor",
+    d: "Edits at the sentence level",
+    u: "Fixing weak or clunky individual sentences" },
+  { cat: "Writing / Editing", icon: "✏️", iconClass: "icon-gray",
+    n: "editing-workshop",
+    d: "Full workshop-style editing session",
+    u: "Collaborative edit of a longer piece" },
+  { cat: "Writing / Editing", icon: "✏️", iconClass: "icon-gray",
+    n: "formatting-upgrade",
+    d: "Upgrades formatting for readability",
+    u: "Improving structure, spacing, hierarchy" },
+  { cat: "Writing / Editing", icon: "✏️", iconClass: "icon-gray",
+    n: "anthropic-skills:formatting-upgrade",
+    d: "Upgrades formatting for readability (alt)",
+    u: "Improving structure, spacing, hierarchy" },
+  { cat: "Writing / Editing", icon: "✏️", iconClass: "icon-gray",
+    n: "pb07-copy-concision-pass",
+    d: "Playbook for making copy more concise",
+    u: "Trimming bloated copy" },
+  { cat: "Writing / Editing", icon: "✏️", iconClass: "icon-gray",
+    n: "7-critical-readers",
+    d: "Runs copy through 7 different critical reader lenses",
+    u: "Finding blind spots before publishing" },
+  { cat: "Writing / Editing", icon: "✏️", iconClass: "icon-gray",
+    n: "copywriting-workshop",
+    d: "Full copywriting session",
+    u: "Writing new copy from scratch" },
+  { cat: "Writing / Editing", icon: "✏️", iconClass: "icon-gray",
+    n: "interesting-workshop",
+    d: "Makes writing more interesting and engaging",
+    u: "When content is accurate but flat" },
+  { cat: "Writing / Editing", icon: "✏️", iconClass: "icon-gray",
+    n: "turn-chatgpt-into-copywriting-legend-gary-halbert",
+    d: "Applies Gary Halbert copywriting principles",
+    u: "High-conversion direct response copy" },
+  { cat: "Writing / Editing", icon: "✏️", iconClass: "icon-gray",
+    n: "anthropic-skills:markdown-formatter",
+    d: "Formats content as clean Markdown",
+    u: "Docs, notes, structured output" },
+  { cat: "Writing / Editing", icon: "✏️", iconClass: "icon-gray",
+    n: "anthropic-skills:headline-writer",
+    d: "Writes strong headlines",
+    u: "Any asset where the headline is the hook" },
+
+  // ── Lead Magnets ──────────────────────────────
+  { cat: "Lead Magnets", icon: "🧲", iconClass: "icon-orange",
+    n: "leadmagnet-workshop",
+    d: "Full workshop for building a lead magnet",
+    u: "Creating a lead magnet from scratch" },
+  { cat: "Lead Magnets", icon: "🧲", iconClass: "icon-orange",
+    n: "generate-lead-magnet-names",
+    d: "Generates name options for a lead magnet",
+    u: "Naming a new lead magnet" },
+  { cat: "Lead Magnets", icon: "🧲", iconClass: "icon-orange",
+    n: "generate-mockup-images-for-a-lead-magnet-landing-page",
+    d: "Creates mockup images for lead magnet landing pages",
+    u: "Visual assets for opt-in pages" },
+  { cat: "Lead Magnets", icon: "🧲", iconClass: "icon-orange",
+    n: "generate-an-email-course-value-proposition",
+    d: "Writes the value prop for an email course",
+    u: "Email course opt-in copy" },
+  { cat: "Lead Magnets", icon: "🧲", iconClass: "icon-orange",
+    n: "create-the-linkedin-post-for-a-viral-giveaway-lead-magnet",
+    d: "Writes the LinkedIn post for a giveaway lead magnet",
+    u: "Distributing a lead magnet via LinkedIn" },
+
+  // ── Paid Ads ──────────────────────────────────
+  { cat: "Paid Ads", icon: "📢", iconClass: "icon-yellow",
+    n: "pb02-paid-ads-sprint",
+    d: "Playbook for a paid ads sprint",
+    u: "Launching or refreshing an ad campaign" },
+  { cat: "Paid Ads", icon: "📢", iconClass: "icon-yellow",
+    n: "pb19-weekly-ad-decisions",
+    d: "Playbook for weekly ad decision-making",
+    u: "Weekly paid media review" },
+  { cat: "Paid Ads", icon: "📢", iconClass: "icon-yellow",
+    n: "pb13-creative-testing-cadence",
+    d: "Playbook for structuring creative testing",
+    u: "Building a systematic ad testing process" },
+  { cat: "Paid Ads", icon: "📢", iconClass: "icon-yellow",
+    n: "pb17-campaign-hygiene-audit",
+    d: "Playbook for auditing campaign health",
+    u: "Catching issues before they drain budget" },
+  { cat: "Paid Ads", icon: "📢", iconClass: "icon-yellow",
+    n: "pb06-creative-brief-builder",
+    d: "Playbook for building creative briefs",
+    u: "Briefing designers or video editors" },
+  { cat: "Paid Ads", icon: "📢", iconClass: "icon-yellow",
+    n: "competitive-ads-extractor",
+    d: "Extracts and analyzes competitor ads",
+    u: "Competitive research, creative inspiration" },
+  { cat: "Paid Ads", icon: "📢", iconClass: "icon-yellow",
+    n: "anthropic-skills:competitive-ads-extractor",
+    d: "Extracts and analyzes competitor ads (alt)",
+    u: "Competitive research, creative inspiration" },
+  { cat: "Paid Ads", icon: "📢", iconClass: "icon-yellow",
+    n: "ads-ab-hypotheses",
+    d: "Generates structured A/B test hypotheses for ad campaigns",
+    u: "Planning what to test next in paid" },
+  { cat: "Paid Ads", icon: "📢", iconClass: "icon-yellow",
+    n: "ads-budget-review",
+    d: "Reviews budget allocation and recommends rebalancing",
+    u: "Monthly or weekly budget optimization" },
+  { cat: "Paid Ads", icon: "📢", iconClass: "icon-yellow",
+    n: "ads-audience-segmentation",
+    d: "Segments audiences by behavior, demographics, and intent signals",
+    u: "Building or refining audience targeting" },
+  { cat: "Paid Ads", icon: "📢", iconClass: "icon-yellow",
+    n: "ads-creative-fatigue",
+    d: "Identifies creative fatigue patterns and recommends refresh cycles",
+    u: "Preventing ad performance decline" },
+
+  // ── Agency / Client Playbooks ─────────────────
+  { cat: "Agency / Client Playbooks", icon: "💼", iconClass: "icon-green",
+    n: "pb01-new-client-onboarding",
+    d: "Playbook for onboarding a new client",
+    u: "First week with a new client" },
+  { cat: "Agency / Client Playbooks", icon: "💼", iconClass: "icon-green",
+    n: "pb03-monthly-retainer-pack",
+    d: "Playbook for monthly retainer deliverables",
+    u: "Monthly client deliverable cycle" },
+  { cat: "Agency / Client Playbooks", icon: "💼", iconClass: "icon-green",
+    n: "pb04-agency-new-biz",
+    d: "Playbook for new business development",
+    u: "Pursuing new agency clients" },
+  { cat: "Agency / Client Playbooks", icon: "💼", iconClass: "icon-green",
+    n: "pb08-performance-pulse",
+    d: "Playbook for performance reporting",
+    u: "Quick performance snapshot for clients" },
+  { cat: "Agency / Client Playbooks", icon: "💼", iconClass: "icon-green",
+    n: "pb09-biweekly-client-update",
+    d: "Playbook for biweekly client updates",
+    u: "Regular client communication" },
+  { cat: "Agency / Client Playbooks", icon: "💼", iconClass: "icon-green",
+    n: "pb11-report-template-population",
+    d: "Fills in report templates with data",
+    u: "Populating performance reports" },
+  { cat: "Agency / Client Playbooks", icon: "💼", iconClass: "icon-green",
+    n: "pb12-sales-call-loop",
+    d: "Playbook for sales call prep and follow-up",
+    u: "Before and after sales calls" },
+  { cat: "Agency / Client Playbooks", icon: "💼", iconClass: "icon-green",
+    n: "pb14-margin-math",
+    d: "Playbook for calculating margin",
+    u: "Pricing, profitability analysis" },
+  { cat: "Agency / Client Playbooks", icon: "💼", iconClass: "icon-green",
+    n: "pb16-objection-reframe",
+    d: "Playbook for reframing sales objections",
+    u: "Handling pushback in sales conversations" },
+  { cat: "Agency / Client Playbooks", icon: "💼", iconClass: "icon-green",
+    n: "pb18-framework-extraction",
+    d: "Playbook for extracting frameworks from experience",
+    u: "Productizing your IP" },
+  { cat: "Agency / Client Playbooks", icon: "💼", iconClass: "icon-green",
+    n: "pb10-chaos-to-checklist",
+    d: "Turns messy processes into clean checklists",
+    u: "Systematizing recurring work" },
+  { cat: "Agency / Client Playbooks", icon: "💼", iconClass: "icon-green",
+    n: "pb20-service-landing-page",
+    d: "Playbook for building a service landing page",
+    u: "Creating or improving a service page" },
+  { cat: "Agency / Client Playbooks", icon: "💼", iconClass: "icon-green",
+    n: "client-strategy-report",
+    d: "Builds a client strategy report",
+    u: "Quarterly strategy or audit deliverable" },
+  { cat: "Agency / Client Playbooks", icon: "💼", iconClass: "icon-green",
+    n: "sales-proposal-workflow",
+    d: "Full workflow for writing a sales proposal",
+    u: "Closing a new client" },
+  { cat: "Agency / Client Playbooks", icon: "💼", iconClass: "icon-green",
+    n: "ops-briefing-workflow",
+    d: "Builds an ops briefing document",
+    u: "Internal ops communication" },
+  { cat: "Agency / Client Playbooks", icon: "💼", iconClass: "icon-green",
+    n: "anthropic-skills:offer-strategy-builder",
+    d: "Builds an offer strategy",
+    u: "Architecting or repositioning an offer" },
+  { cat: "Agency / Client Playbooks", icon: "💼", iconClass: "icon-green",
+    n: "offerarchitect-workshop",
+    d: "Workshop for designing an offer",
+    u: "Full offer design session" },
+
+  // ── Research / Interviews ─────────────────────
+  { cat: "Research / Interviews", icon: "🔍", iconClass: "icon-blue",
+    n: "user-interview-analyzer",
+    d: "Analyzes user interview transcripts for insights",
+    u: "After customer or user interviews" },
+  { cat: "Research / Interviews", icon: "🔍", iconClass: "icon-blue",
+    n: "business-interview-workshop",
+    d: "Structured business interview session",
+    u: "Extracting expertise for content or frameworks" },
+  { cat: "Research / Interviews", icon: "🔍", iconClass: "icon-blue",
+    n: "keywordresearch-workshop",
+    d: "Workshop for keyword research",
+    u: "SEO planning" },
+  { cat: "Research / Interviews", icon: "🔍", iconClass: "icon-blue",
+    n: "anthropic-skills:lead-research-assistant",
+    d: "Researches leads before outreach",
+    u: "Sales prep, prospecting" },
+  { cat: "Research / Interviews", icon: "🔍", iconClass: "icon-blue",
+    n: "anthropic-skills:content-research-writer",
+    d: "Researches and writes content with factual depth",
+    u: "Long-form content that needs sourcing" },
+  { cat: "Research / Interviews", icon: "🔍", iconClass: "icon-blue",
+    n: "anthropic-skills:seo-keyword-optimization",
+    d: "Optimizes content for SEO keywords",
+    u: "Publishing content that needs to rank" },
+
+  // ── Skill Creation ────────────────────────────
+  { cat: "Skill Creation", icon: "🛠️", iconClass: "icon-orange",
+    n: "skillcreator-interview-workshop",
+    d: "Interview-style session to build a new skill",
+    u: "Extracting a workflow into a reusable skill" },
+  { cat: "Skill Creation", icon: "🛠️", iconClass: "icon-orange",
+    n: "anthropic-skills:skillcreator-interview-workshop",
+    d: "Interview-style skill build (alt version)",
+    u: "Extracting a workflow into a reusable skill" },
+  { cat: "Skill Creation", icon: "🛠️", iconClass: "icon-orange",
+    n: "skillcreator-extract-workshop",
+    d: "Extracts an existing skill from materials or process",
+    u: "When you have the process, need the skill" },
+  { cat: "Skill Creation", icon: "🛠️", iconClass: "icon-orange",
+    n: "anthropic-skills:skillcreator-extract-workshop",
+    d: "Extracts skill from materials (alt version)",
+    u: "When you have the process, need the skill" },
+
+  // ── Design / Visual / Brand ───────────────────
+  { cat: "Design / Visual / Brand", icon: "🎨", iconClass: "icon-orange",
+    n: "brand-campaign-calendar",
+    d: "Builds a brand campaign calendar",
+    u: "Campaign planning and scheduling" },
+  { cat: "Design / Visual / Brand", icon: "🎨", iconClass: "icon-orange",
+    n: "anthropic-skills:brand-campaign-calendar",
+    d: "Builds a brand campaign calendar (alt)",
+    u: "Campaign planning and scheduling" },
+  { cat: "Design / Visual / Brand", icon: "🎨", iconClass: "icon-orange",
+    n: "anthropic-skills:brand-guidelines",
+    d: "Creates or documents brand guidelines",
+    u: "Documenting brand identity" },
+  { cat: "Design / Visual / Brand", icon: "🎨", iconClass: "icon-orange",
+    n: "anthropic-skills:theme-factory",
+    d: "Generates visual theme options",
+    u: "Design direction, mood boards" },
+  { cat: "Design / Visual / Brand", icon: "🎨", iconClass: "icon-orange",
+    n: "anthropic-skills:algorithmic-art",
+    d: "Creates algorithmic or generative art",
+    u: "Visual content, creative experiments" },
+  { cat: "Design / Visual / Brand", icon: "🎨", iconClass: "icon-orange",
+    n: "anthropic-skills:performance-imagery-script",
+    d: "Scripts imagery for performance creative",
+    u: "Ad creative direction" },
+  { cat: "Design / Visual / Brand", icon: "🎨", iconClass: "icon-orange",
+    n: "nano-banana-image-gen",
+    d: "Generates images quickly",
+    u: "Quick image generation" },
+  { cat: "Design / Visual / Brand", icon: "🎨", iconClass: "icon-orange",
+    n: "visualizations",
+    d: "Creates data visualizations",
+    u: "Charts, graphs, visual data output" },
+  { cat: "Design / Visual / Brand", icon: "🎨", iconClass: "icon-orange",
+    n: "excalidraw-diagram",
+    d: "Creates Excalidraw diagrams",
+    u: "System maps, process flows, whiteboard visuals" },
+  { cat: "Design / Visual / Brand", icon: "🎨", iconClass: "icon-orange",
+    n: "figma:implement-design",
+    d: "Implements a Figma design in code",
+    u: "Design-to-code handoff" },
+  { cat: "Design / Visual / Brand", icon: "🎨", iconClass: "icon-orange",
+    n: "figma:code-connect-components",
+    d: "Connects Figma components to code",
+    u: "Design system and component mapping" },
+  { cat: "Design / Visual / Brand", icon: "🎨", iconClass: "icon-orange",
+    n: "figma:create-design-system-rules",
+    d: "Documents design system rules from Figma",
+    u: "Building or documenting a design system" },
+
+  // ── Frontend / Build ──────────────────────────
+  { cat: "Frontend / Build", icon: "🖥️", iconClass: "icon-blue",
+    n: "frontend-design",
+    d: "Designs frontend UI",
+    u: "Building or improving a web UI" },
+  { cat: "Frontend / Build", icon: "🖥️", iconClass: "icon-blue",
+    n: "frontend-workshop",
+    d: "Full frontend build session",
+    u: "Larger frontend projects" },
+  { cat: "Frontend / Build", icon: "🖥️", iconClass: "icon-blue",
+    n: "coworkcamp-page-builder",
+    d: "Builds Cowork Camp pages",
+    u: "Cowork Camp specific pages" },
+  { cat: "Frontend / Build", icon: "🖥️", iconClass: "icon-blue",
+    n: "landingpage-workshop",
+    d: "Workshop for building landing pages",
+    u: "New landing page from scratch" },
+  { cat: "Frontend / Build", icon: "🖥️", iconClass: "icon-blue",
+    n: "anthropic-skills:saas-landing-page",
+    d: "Builds a SaaS landing page in Jay's design system",
+    u: "SaaS product pages" },
+  { cat: "Frontend / Build", icon: "🖥️", iconClass: "icon-blue",
+    n: "anthropic-skills:site-preview-builder",
+    d: "Builds site previews and mockups",
+    u: "Quick mockup or preview" },
+  { cat: "Frontend / Build", icon: "🖥️", iconClass: "icon-blue",
+    n: "anthropic-skills:web-artifacts-builder",
+    d: "Builds web artifacts and standalone components",
+    u: "Standalone web components" },
+  { cat: "Frontend / Build", icon: "🖥️", iconClass: "icon-blue",
+    n: "video-to-website",
+    d: "Converts video content into a website",
+    u: "Repurposing video as a web page" },
+
+  // ── File / Output ─────────────────────────────
+  { cat: "File / Output", icon: "📄", iconClass: "icon-gray",
+    n: "file-organizer",
+    d: "Organizes files and folders",
+    u: "Cleaning up messy file systems" },
+  { cat: "File / Output", icon: "📄", iconClass: "icon-gray",
+    n: "anthropic-skills:file-organizer",
+    d: "Organizes files and folders (alt)",
+    u: "Cleaning up messy file systems" },
+  { cat: "File / Output", icon: "📄", iconClass: "icon-gray",
+    n: "anthropic-skills:pdf",
+    d: "Creates PDF output",
+    u: "Polished document delivery" },
+  { cat: "File / Output", icon: "📄", iconClass: "icon-gray",
+    n: "anthropic-skills:pptx",
+    d: "Creates PowerPoint presentations",
+    u: "Decks, pitches, presentations" },
+  { cat: "File / Output", icon: "📄", iconClass: "icon-gray",
+    n: "anthropic-skills:docx",
+    d: "Creates Word documents",
+    u: "Briefs, proposals, reports" },
+  { cat: "File / Output", icon: "📄", iconClass: "icon-gray",
+    n: "anthropic-skills:xlsx",
+    d: "Creates Excel spreadsheets with formulas",
+    u: "Data, analysis, tracking" },
+
+  // ── PMM / Positioning ─────────────────────────
+  { cat: "PMM / Positioning", icon: "🎯", iconClass: "icon-green",
+    n: "positioning-audit",
+    d: "Audits current positioning against 7 criteria, identifies gaps",
+    u: "Repositioning, new product, messaging feels off" },
+  { cat: "PMM / Positioning", icon: "🎯", iconClass: "icon-green",
+    n: "icp-definition",
+    d: "Builds detailed ICP with pain points, buying triggers, objections",
+    u: "Defining or refining your ideal customer" },
+  { cat: "PMM / Positioning", icon: "🎯", iconClass: "icon-green",
+    n: "messaging-hierarchy",
+    d: "Creates primary/secondary/tertiary message layers tied to ICP",
+    u: "Building a structured messaging framework" },
+  { cat: "PMM / Positioning", icon: "🎯", iconClass: "icon-green",
+    n: "competitive-landing-page",
+    d: "Analyzes competitor landing pages, identifies positioning whitespace",
+    u: "Competitive research before a page rewrite" },
+  { cat: "PMM / Positioning", icon: "🎯", iconClass: "icon-green",
+    n: "message-market-fit",
+    d: "Tests messaging resonance against ICP segments",
+    u: "Validating messaging before launch" },
+  { cat: "PMM / Positioning", icon: "🎯", iconClass: "icon-green",
+    n: "voc-synthesis",
+    d: "Synthesizes voice-of-customer language from reviews, calls, forums",
+    u: "Mining customer language for copy and positioning" },
+
+  // ── Meta Ads ─────────────────────────────────
+  { cat: "Meta Ads", icon: "📊", iconClass: "icon-blue",
+    n: "meta-full-account-audit",
+    d: "Scores Meta account across 7 dimensions, flags structural issues",
+    u: "New account takeover or quarterly audit" },
+  { cat: "Meta Ads", icon: "📊", iconClass: "icon-blue",
+    n: "meta-campaign-architecture",
+    d: "Redesigns campaign structure by funnel stage",
+    u: "Restructuring underperforming campaigns" },
+  { cat: "Meta Ads", icon: "📊", iconClass: "icon-blue",
+    n: "meta-cpa-early-warning",
+    d: "Sets CPA thresholds and early kill/scale signals",
+    u: "Building decision rules for campaign management" },
+  { cat: "Meta Ads", icon: "📊", iconClass: "icon-blue",
+    n: "meta-creative-breakdown",
+    d: "Analyzes creative performance, identifies winning patterns",
+    u: "Finding what works across ad creatives" },
+  { cat: "Meta Ads", icon: "📊", iconClass: "icon-blue",
+    n: "meta-budget-reallocation",
+    d: "Redistributes spend based on ROAS, CPA, and headroom",
+    u: "Optimizing budget across campaigns" },
+  { cat: "Meta Ads", icon: "📊", iconClass: "icon-blue",
+    n: "meta-audience-audit",
+    d: "Audits audience overlap, exclusions, and targeting health",
+    u: "Diagnosing audience issues in Meta" },
+  { cat: "Meta Ads", icon: "📊", iconClass: "icon-blue",
+    n: "meta-fatigue-scan",
+    d: "Scans for creative fatigue signals across active ads",
+    u: "Weekly creative health check" },
+  { cat: "Meta Ads", icon: "📊", iconClass: "icon-blue",
+    n: "meta-weekly-report",
+    d: "Generates weekly Meta Ads performance report",
+    u: "Client or internal weekly reporting" },
+
+  // ── DTC Creative ─────────────────────────────
+  { cat: "DTC Creative", icon: "🎬", iconClass: "icon-orange",
+    n: "dtc-review-miner",
+    d: "Extracts pain points, desire language, and objections from customer reviews",
+    u: "Mining reviews for ad copy angles" },
+  { cat: "DTC Creative", icon: "🎬", iconClass: "icon-orange",
+    n: "dtc-hook-writer",
+    d: "Generates hooks from review language, 10+ per angle",
+    u: "Writing hooks for ads mapped to awareness levels" },
+  { cat: "DTC Creative", icon: "🎬", iconClass: "icon-orange",
+    n: "dtc-ad-variations",
+    d: "Builds UGC, static, and video ad variations from winning hooks",
+    u: "Creating multi-format ad variations" },
+  { cat: "DTC Creative", icon: "🎬", iconClass: "icon-orange",
+    n: "dtc-brief-generator",
+    d: "Packages ad variations into production-ready creative briefs",
+    u: "Briefing designers, editors, or UGC creators" },
+  { cat: "DTC Creative", icon: "🎬", iconClass: "icon-orange",
+    n: "dtc-content-repurpose",
+    d: "Repurposes winning ads into new formats and placements",
+    u: "Extending the life of winning creative" },
+  { cat: "DTC Creative", icon: "🎬", iconClass: "icon-orange",
+    n: "dtc-competitor-audit",
+    d: "Audits competitor DTC creative strategy and patterns",
+    u: "Competitive creative intelligence" },
+  { cat: "DTC Creative", icon: "🎬", iconClass: "icon-orange",
+    n: "dtc-fatigue-detector",
+    d: "Scores existing creatives for fatigue signals, prioritizes replacements",
+    u: "Knowing which ads to kill or refresh" },
+  { cat: "DTC Creative", icon: "🎬", iconClass: "icon-orange",
+    n: "dtc-advertorial-builder",
+    d: "Builds advertorial-style landing pages for DTC products",
+    u: "Creating pre-sell pages that feel editorial" },
+  { cat: "DTC Creative", icon: "🎬", iconClass: "icon-orange",
+    n: "dtc-static-ads",
+    d: "Creates static ad concepts with copy, layout, and visual direction",
+    u: "Static image ad production" },
+  { cat: "DTC Creative", icon: "🎬", iconClass: "icon-orange",
+    n: "dtc-report-writer",
+    d: "Writes DTC creative performance reports with insights and recommendations",
+    u: "Client or internal creative reporting" },
+
+  // ── Notion ────────────────────────────────────
+  { cat: "Notion", icon: "📋", iconClass: "icon-gray",
+    n: "Notion:create-page",
+    d: "Creates a Notion page",
+    u: "Adding new pages to Notion" },
+  { cat: "Notion", icon: "📋", iconClass: "icon-gray",
+    n: "Notion:create-task",
+    d: "Creates a task in Notion",
+    u: "Task management" },
+  { cat: "Notion", icon: "📋", iconClass: "icon-gray",
+    n: "Notion:create-database-row",
+    d: "Adds a row to a Notion database",
+    u: "Database data entry" },
+  { cat: "Notion", icon: "📋", iconClass: "icon-gray",
+    n: "Notion:database-query",
+    d: "Queries a Notion database",
+    u: "Pulling records or filtering data" },
+  { cat: "Notion", icon: "📋", iconClass: "icon-gray",
+    n: "Notion:find",
+    d: "Finds content in Notion",
+    u: "Locating existing pages or data" },
+  { cat: "Notion", icon: "📋", iconClass: "icon-gray",
+    n: "Notion:search",
+    d: "Searches across Notion workspace",
+    u: "Broad Notion search" },
+  { cat: "Notion", icon: "📋", iconClass: "icon-gray",
+    n: "Notion:tasks:setup",
+    d: "Sets up a Notion tasks system",
+    u: "First-time task system configuration" },
+  { cat: "Notion", icon: "📋", iconClass: "icon-gray",
+    n: "Notion:tasks:build",
+    d: "Builds out the Notion task structure",
+    u: "Expanding or rebuilding task setup" },
+  { cat: "Notion", icon: "📋", iconClass: "icon-gray",
+    n: "Notion:tasks:plan",
+    d: "Plans work using Notion tasks",
+    u: "Sprint or project planning" },
+  { cat: "Notion", icon: "📋", iconClass: "icon-gray",
+    n: "Notion:tasks:explain-diff",
+    d: "Explains differences between task states",
+    u: "Reviewing what changed in task system" }
+];
+
+// ── Derived data ─────────────────────────────────
+const CATEGORY_ORDER = [
+  "Agency / Client Playbooks",  // daily ops, core service delivery
+  "Paid Ads",                   // core revenue-generating service
+  "Meta Ads",                   // Meta-specific account and creative management
+  "DTC Creative",               // DTC ad creative production pipeline
+  "PMM / Positioning",          // positioning, ICP, messaging frameworks
+  "Email",                      // constant client + sales communication
+  "Writing / Editing",          // copy, content, everything written
+  "Newsletter / Content",       // weekly content system
+  "Lead Magnets",               // top-of-funnel marketing
+  "Research / Interviews",      // strategy and intel
+  "Design / Visual / Brand",    // campaign and brand assets
+  "Frontend / Build",           // pages, tools, builds
+  "File / Output",              // deliverables and exports
+  "Notion",                     // ops and task management
+  "System / Claude Code",       // meta: Claude setup and automation
+  "Skill Creation",             // meta: building new skills
+];
+
+SKILLS.sort((a, b) => CATEGORY_ORDER.indexOf(a.cat) - CATEGORY_ORDER.indexOf(b.cat));
+
+const CATEGORIES = [...new Set(SKILLS.map(s => s.cat))];
+const TOTAL = SKILLS.length;
+
+// ── Build filter pills ────────────────────────────
+const filterRow = document.getElementById('filterRow');
+
+const CAT_COLORS = {
+  "Agency / Client Playbooks": "#16a34a",
+  "Paid Ads": "#ca8a04",
+  "Meta Ads": "#2563eb",
+  "DTC Creative": "#E8541A",
+  "PMM / Positioning": "#7c3aed",
+  "Email": "#0891b2",
+  "Writing / Editing": "#64748b",
+  "Newsletter / Content": "#ea580c",
+  "Lead Magnets": "#dc2626",
+  "Research / Interviews": "#0d9488",
+  "Design / Visual / Brand": "#c026d3",
+  "Frontend / Build": "#2563eb",
+  "File / Output": "#64748b",
+  "Notion": "#111",
+  "System / Claude Code": "#111",
+  "Skill Creation": "#E8541A",
+};
+
+function makePill(label, value, active, color) {
+  const btn = document.createElement('button');
+  btn.className = 'filter-pill' + (active ? ' active' : '');
+  if (color) {
+    btn.innerHTML = `<span class="filter-dot" style="background:${color};"></span> ${label}`;
+  } else {
+    btn.textContent = label;
+  }
+  btn.dataset.filter = value;
+  btn.addEventListener('click', () => setFilter(value, btn));
+  filterRow.appendChild(btn);
+}
+
+makePill('All', 'all', true);
+CATEGORIES.forEach(cat => {
+  makePill(cat, cat, false, CAT_COLORS[cat]);
+});
+
+// ── Build wiring tags ────────────────────────────
+const wiringTags = document.getElementById('wiringTags');
+CATEGORIES.forEach(cat => {
+  const tag = document.createElement('span');
+  tag.className = 'wiring-tag';
+  tag.textContent = cat;
+  tag.dataset.filter = cat;
+  tag.addEventListener('click', () => {
+    // sync with pills
+    const pill = [...filterRow.querySelectorAll('.filter-pill')]
+      .find(p => p.dataset.filter === cat);
+    if (pill) setFilter(cat, pill);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+  wiringTags.appendChild(tag);
+});
+
+// ── Build cards ──────────────────────────────────
+const cardGrid = document.getElementById('cardGrid');
+
+SKILLS.forEach(skill => {
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.dataset.cat = skill.cat;
+  card.dataset.search = `${skill.n} ${skill.d} ${skill.u}`.toLowerCase();
+
+  card.innerHTML = `
+    <div class="card-top">
+      <div class="card-icon">${ICONS[skill.cat] || ''}</div>
+      <div class="card-name">${NAMES[skill.n] || skill.n}</div>
+    </div>
+    <div class="card-category">${skill.cat}</div>
+    <div class="card-meta">
+      <div class="card-meta-row">
+        <span class="card-meta-label">Does</span>
+        <span class="card-meta-val">${skill.d}</span>
+      </div>
+      <div class="card-meta-row">
+        <span class="card-meta-label">Use</span>
+        <span class="card-meta-val">${skill.u}</span>
+      </div>
+    </div>
+    <button class="skill-name-btn" data-skill="${skill.n}" title="Click to copy /${skill.n}">
+      /${skill.n}<span class="copy-icon">⎘</span>
+    </button>
+  `;
+
+  cardGrid.appendChild(card);
+});
+
+// ── State ─────────────────────────────────────────
+let activeFilter = 'all';
+let activeSearch = '';
+
+function runFilter() {
+  let visible = 0;
+  document.querySelectorAll('.card').forEach(card => {
+    const catMatch = activeFilter === 'all' || card.dataset.cat === activeFilter;
+    const searchMatch = !activeSearch || card.dataset.search.includes(activeSearch);
+    const show = catMatch && searchMatch;
+    card.classList.toggle('hidden', !show);
+    if (show) visible++;
+  });
+  document.getElementById('skillCount').innerHTML = `<strong>${visible}</strong> skills`;
+  document.getElementById('emptyState').style.display = visible === 0 ? 'block' : 'none';
+}
+
+function setFilter(value, clickedPill) {
+  activeFilter = value;
+
+  document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+  clickedPill.classList.add('active');
+
+  document.querySelectorAll('.wiring-tag').forEach(t => {
+    t.classList.toggle('active', t.dataset.filter === value);
+  });
+
+  // Update section label
+  if (value === 'all') {
+    document.getElementById('sectionLabel').textContent = 'All Skills';
+    document.getElementById('sectionTitle').textContent = 'Your full skill library';
+  } else {
+    document.getElementById('sectionLabel').textContent = value;
+    const catSkills = SKILLS.filter(s => s.cat === value);
+    document.getElementById('sectionTitle').textContent = `${catSkills.length} skills in this category`;
+  }
+
+  // Clear search
+  document.getElementById('searchInput').value = '';
+  activeSearch = '';
+
+  runFilter();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── Search (covers skills + playbooks) ───────────
+document.getElementById('searchInput').addEventListener('input', e => {
+  activeSearch = e.target.value.toLowerCase().trim();
+  runFilter();
+  filterPlaybooksBySearch(activeSearch);
+});
+
+function filterPlaybooksBySearch(q) {
+  const grid = document.getElementById('playbookGrid');
+  if (!grid) return;
+  grid.querySelectorAll('.card').forEach(card => {
+    if (!q) { card.classList.remove('hidden'); return; }
+    const text = card.textContent.toLowerCase();
+    card.classList.toggle('hidden', !text.includes(q));
+  });
+}
+
+// ── Keyboard shortcut: / or Cmd+K to focus search ──
+document.addEventListener('keydown', e => {
+  const input = document.getElementById('searchInput');
+  if (document.activeElement === input) return;
+  if (e.key === '/' || (e.metaKey && e.key === 'k') || (e.ctrlKey && e.key === 'k')) {
+    e.preventDefault();
+    input.focus();
+    input.select();
+  }
+});
+
+// ── Copy to clipboard ─────────────────────────────
+let toastTimeout;
+
+document.addEventListener('click', e => {
+  const btn = e.target.closest('.skill-name-btn');
+  if (!btn) return;
+
+  const skillName = btn.dataset.skill;
+  const text = `/${skillName}`;
+
+  const onCopied = () => {
+    btn.classList.add('copied');
+    const icon = btn.querySelector('.copy-icon');
+    if (icon) icon.textContent = '✓';
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      if (icon) icon.textContent = '⎘';
+    }, 1500);
+    document.getElementById('toastText').textContent = text;
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => toast.classList.remove('show'), 2200);
+  };
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(onCopied).catch(() => fallback(text, onCopied));
+  } else {
+    fallback(text, onCopied);
+  }
+});
+
+function fallback(text, cb) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0;';
+  document.body.appendChild(ta);
+  ta.focus(); ta.select();
+  try { document.execCommand('copy'); cb(); } catch(e) {}
+  document.body.removeChild(ta);
+}
+
+// ── Init ──────────────────────────────────────────
+document.getElementById('statTotal').innerHTML = `${TOTAL}<span>+</span>`;
+document.getElementById('skillCount').innerHTML = `<strong>${TOTAL}</strong> skills`;
+document.getElementById('orangeBreakHeadline').textContent = `${TOTAL} skills. All at your fingertips.`;
+document.getElementById('searchInput').placeholder = `Search ${TOTAL} skills...`;
+runFilter();
+
+// ── Playbooks ────────────────────────────────────
+const PLAYBOOKS = [
+  { id: "A", name: "New Client Onboarding", type: "agency", trigger: "Client signed", output: "Strategy deck + campaign calendar",
+    steps: ["pb01-new-client-onboarding", "user-research-analyzer", "competitive-ads-extractor", "framework-extractor", "brand-campaign-calendar", "client-strategy-report"] },
+  { id: "B", name: "Paid Ads Campaign Launch", type: "agency", trigger: "Campaign kickoff", output: "Ad creatives + LP audit + test plan",
+    steps: ["pb02-paid-ads-sprint", "meta-ads-strategist", "pb06-creative-brief-builder", "landing-page-auditor", "copywriting-workshop", "pb13-creative-testing-cadence"] },
+  { id: "C", name: "Weekly Content Production", type: "agency", trigger: "Monday morning", output: "LinkedIn + newsletter + emails",
+    steps: ["morning-ops-briefing", "pb05-content-batch", "linkedin-content-machine", "newsletter-builder", "email-marketing-suite", "pb07-copy-concision-pass", "sharp-edit"] },
+  { id: "D", name: "Client Reporting Cycle", type: "agency", trigger: "Biweekly/monthly", output: "Performance report",
+    steps: ["pb08-performance-pulse", "pb19-weekly-ad-decisions", "pb17-campaign-hygiene-audit", "pb09-biweekly-client-update", "pb11-report-template-population"] },
+  { id: "E", name: "Lead Magnet Funnel", type: "agency", trigger: "New offer idea", output: "Complete funnel",
+    steps: ["lead-magnet-engine", "offerarchitect-workshop", "landingpage-workshop", "emailsequence-workshop", "lead-magnet-welcome-email-writer", "pb20-service-landing-page"] },
+  { id: "F", name: "Sales Pipeline", type: "agency", trigger: "New prospect", output: "Proposal + scripts + pricing",
+    steps: ["pb04-agency-new-biz", "sales-proposal-workflow", "pb12-sales-call-loop", "pb16-objection-reframe", "pb14-margin-math"] },
+  { id: "G", name: "Content Repurposing", type: "agency", trigger: "Long-form piece done", output: "Multi-platform content",
+    steps: ["long-form-research-writer", "repurpose-workshop", "linkedin-content-machine", "scriptwriting-engine", "newsletter-builder", "email-marketing-suite"] },
+  { id: "H", name: "Digital Product Launch", type: "universal", trigger: "Product idea", output: "Validated product + funnel + launch",
+    steps: ["dp-idea-and-validation", "dp-product-creation", "dp-offer-and-pricing", "dp-landing-page-builder", "dp-funnel-setup", "dp-launch-strategy", "dp-funnel-optimizer"] },
+  { id: "I", name: "Course Creation Sprint", type: "universal", trigger: "Course idea validated", output: "Full course + sales + emails",
+    steps: ["course-research", "course-offer", "course-outline", "course-content-writer", "landing-page", "launch-emails", "onboarding-emails"] },
+  { id: "J", name: "Ghostwriting Business", type: "universal", trigger: "Starting/scaling", output: "Niche + offer + outreach",
+    steps: ["niche-interview-generator", "positioning-consultant", "offer-stack-builder", "client-outreach-generator", "sales-script-generator", "x-twitter-content-generator", "newsletter-generator"] },
+  { id: "K", name: "Creator Content Engine", type: "universal", trigger: "Building brand", output: "Multi-platform system + growth",
+    steps: ["fsw-viral-writing", "platform-content-strategy", "viral-post-writer", "fsw-newsletter-writer", "fsw-newsletter-subject-lines", "viral-drop-launcher", "retargeting-vortex"] },
+  { id: "L", name: "Low-Ticket Product Sprint", type: "universal", trigger: "Quick product needed", output: "$27-$97 product ready to sell",
+    steps: ["ltl-product-idea-generator", "ltl-offer-builder", "ltl-curriculum-outliner", "ltl-module-builder", "ltl-product-creation-checklist", "dp-launch-strategy"] },
+  { id: "M", name: "Publishing Empire", type: "universal", trigger: "6+ months content", output: "Published books + passive revenue",
+    steps: ["fsw-newsletter-writer", "newsletter-to-book-planner", "book-description-writer", "kdp-publishing-checklist", "dp-upsell-designer"] },
+  { id: "N", name: "Founder Clarity Sprint", type: "universal", trigger: "Overwhelmed/stuck", output: "Prioritized action list + system",
+    steps: ["dj-open-loop-purge", "dj-decision-maker", "dj-ai-coach", "dj-reflection-prompts", "dj-journal-routines"] },
+  { id: "O", name: "PMM Foundation Sprint", type: "specialist", trigger: "Repositioning / messaging off", output: "Positioning + ICP + messaging hierarchy",
+    steps: ["positioning-audit", "icp-definition", "messaging-hierarchy", "voc-synthesis", "message-market-fit", "competitive-landing-page"] },
+  { id: "P", name: "Meta Ads Account Overhaul", type: "specialist", trigger: "Underperforming Meta account", output: "Full diagnosis + restructured campaigns",
+    steps: ["meta-full-account-audit", "meta-campaign-architecture", "meta-cpa-early-warning", "meta-creative-breakdown", "meta-budget-reallocation"] },
+  { id: "Q", name: "DTC Creative Velocity Sprint", type: "specialist", trigger: "Creative fatigue / new product", output: "Hooks + ad variations + creative briefs",
+    steps: ["dtc-review-miner", "dtc-hook-writer", "dtc-ad-variations", "dtc-brief-generator", "dtc-fatigue-detector"] },
+];
+
+const typeColors = { agency: "var(--green)", universal: "var(--blue)", specialist: "var(--orange)" };
+const typeBgs = { agency: "var(--green-bg)", universal: "var(--blue-bg)", specialist: "var(--orange-light)" };
+const typeLabels = { agency: "Agency", universal: "Universal", specialist: "Specialist" };
+
+const playbookGrid = document.getElementById('playbookGrid');
+
+function buildPlaybookPrompt(pb) {
+  const lines = [
+    `Run: ${pb.name}`,
+    ``,
+    `Run the following skills in sequence. After each step, use the output as input for the next. Do not skip steps.`,
+    ``
+  ];
+  pb.steps.forEach((s, i) => {
+    lines.push(`Step ${i+1}: /${s}`);
+  });
+  lines.push('');
+  lines.push(`Expected output: ${pb.output}`);
+  return lines.join('\n');
+}
+
+PLAYBOOKS.forEach(pb => {
+  const card = document.createElement('div');
+  card.className = 'card pb-card';
+  card.dataset.pbtype = pb.type;
+
+  const stepsHtml = pb.steps.map((s, i) =>
+    `<div class="pb-step">
+      <span class="pb-step-num">${i+1}.</span>/${s}
+    </div>`
+  ).join('');
+
+  card.innerHTML = `
+    <div class="pb-header">
+      <span class="pb-badge" style="background:${typeBgs[pb.type]};color:${typeColors[pb.type]};">${typeLabels[pb.type]}</span>
+      <span class="pb-copy-hint">Click to copy</span>
+    </div>
+    <div class="pb-name">${pb.name}</div>
+    <div class="pb-meta">
+      <div class="pb-meta-row">
+        <span class="pb-meta-icon">⚡</span>
+        <span class="pb-meta-label">When</span>
+        <span class="pb-meta-val">${pb.trigger}</span>
+      </div>
+      <div class="pb-meta-row">
+        <span class="pb-meta-icon">📦</span>
+        <span class="pb-meta-label">Output</span>
+        <span class="pb-meta-val">${pb.output}</span>
+      </div>
+      <div class="pb-meta-row">
+        <span class="pb-meta-icon">🔗</span>
+        <span class="pb-meta-label">Steps</span>
+        <span class="pb-meta-val">${pb.steps.length} skills chained</span>
+      </div>
+    </div>
+    <div class="pb-steps">
+      ${stepsHtml}
+    </div>
+  `;
+
+  card.addEventListener('click', () => {
+    const prompt = buildPlaybookPrompt(pb);
+    const onCopied = () => {
+      card.style.borderColor = 'var(--green)';
+      card.style.boxShadow = '0 0 0 2px rgba(22,163,74,0.15)';
+      const hint = card.querySelector('.pb-copy-hint');
+      if (hint) { hint.textContent = '✓ Copied!'; hint.style.color = 'var(--green)'; }
+      setTimeout(() => {
+        card.style.borderColor = '';
+        card.style.boxShadow = '';
+        if (hint) { hint.textContent = 'Click to copy'; hint.style.color = 'var(--gray-300)'; }
+      }, 2000);
+      document.getElementById('toastText').textContent = `Copied: ${pb.name}`;
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => toast.classList.remove('show'), 2200);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(prompt).then(onCopied).catch(() => fallback(prompt, onCopied));
+    } else {
+      fallback(prompt, onCopied);
+    }
+  });
+
+  card.addEventListener('mouseenter', () => {
+    const hint = card.querySelector('.pb-copy-hint');
+    if (hint && hint.textContent === 'Click to copy') hint.style.color = 'var(--orange)';
+  });
+  card.addEventListener('mouseleave', () => {
+    const hint = card.querySelector('.pb-copy-hint');
+    if (hint && hint.textContent === 'Click to copy') hint.style.color = 'var(--gray-300)';
+  });
+
+  playbookGrid.appendChild(card);
+});
+
+function filterPlaybooks(type, btn) {
+  document.querySelectorAll('#playbooksSection .filter-pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  playbookGrid.querySelectorAll('.card').forEach(card => {
+    card.classList.toggle('hidden', type !== 'all' && card.dataset.pbtype !== type);
+  });
+}
+
+// ── View toggle (grid / list) ────────────────────
+const viewToggle = document.getElementById('viewToggle');
+viewToggle.addEventListener('click', e => {
+  const btn = e.target.closest('.view-btn');
+  if (!btn) return;
+  const view = btn.dataset.view;
+  viewToggle.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const grid = document.getElementById('cardGrid');
+  grid.classList.toggle('list-view', view === 'list');
+  localStorage.setItem('skillsView', view);
+});
+
+// Restore saved view preference
+const savedView = localStorage.getItem('skillsView');
+if (savedView === 'list') {
+  document.getElementById('cardGrid').classList.add('list-view');
+  viewToggle.querySelector('[data-view="list"]').classList.add('active');
+  viewToggle.querySelector('[data-view="grid"]').classList.remove('active');
+}
+
+// ── Favorites (localStorage) ─────────────────────
+const FAVS_KEY = 'skillFavorites';
+
+function getFavs() {
+  try { return JSON.parse(localStorage.getItem(FAVS_KEY)) || {}; } catch(e) { return {}; }
+}
+
+function recordCopy(skillName) {
+  const favs = getFavs();
+  favs[skillName] = (favs[skillName] || 0) + 1;
+  localStorage.setItem(FAVS_KEY, JSON.stringify(favs));
+  renderFavorites();
+}
+
+function renderFavorites() {
+  const favs = getFavs();
+  const sorted = Object.entries(favs)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 8);
+
+  const section = document.getElementById('favoritesSection');
+  const row = document.getElementById('favoritesRow');
+
+  if (sorted.length < 2) { section.style.display = 'none'; return; }
+
+  section.style.display = 'block';
+  row.innerHTML = '';
+
+  sorted.forEach(([name, count]) => {
+    const chip = document.createElement('span');
+    chip.className = 'fav-chip';
+    chip.innerHTML = `/${name} <span class="fav-count">${count}×</span>`;
+    chip.title = `Click to copy /${name}`;
+    chip.addEventListener('click', () => {
+      const text = `/${name}`;
+      const done = () => {
+        chip.style.background = 'var(--green-bg)';
+        chip.style.borderColor = 'rgba(22,163,74,0.3)';
+        chip.style.color = 'var(--green)';
+        setTimeout(() => { chip.style.background = ''; chip.style.borderColor = ''; chip.style.color = ''; }, 1200);
+        document.getElementById('toastText').textContent = text;
+        const toast = document.getElementById('toast');
+        toast.classList.add('show');
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => toast.classList.remove('show'), 2200);
+        recordCopy(name);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done).catch(() => fallback(text, done));
+      } else { fallback(text, done); }
+    });
+    row.appendChild(chip);
+  });
+}
+
+// Hook into existing copy handler to track favorites
+const origClickHandler = document.onclick;
+document.addEventListener('click', e => {
+  const btn = e.target.closest('.skill-name-btn');
+  if (btn) recordCopy(btn.dataset.skill);
+}, true);
+
+// Init favorites on load
+renderFavorites();
+
+// ── Active nav jump highlight on scroll ──────────
+const jumpLinks = document.querySelectorAll('.nav-jump');
+const sections = [
+  { el: document.getElementById('playbooksSection'), link: jumpLinks[0] },
+  { el: document.getElementById('skillsSection'), link: jumpLinks[1] },
+];
+
+function updateActiveJump() {
+  const scrollY = window.scrollY + 80;
+  let active = sections[0];
+  sections.forEach(s => { if (s.el.offsetTop <= scrollY) active = s; });
+  jumpLinks.forEach(l => l.classList.remove('active'));
+  active.link.classList.add('active');
+}
+window.addEventListener('scroll', updateActiveJump, { passive: true });
+updateActiveJump();
+</script>
+</body>
+</html>
