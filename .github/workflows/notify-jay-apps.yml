@@ -1,0 +1,20 @@
+name: Notify jay-apps
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'skills-reference.html'
+      - '.github/workflows/notify-jay-apps.yml'
+  workflow_dispatch:
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger jay-apps rebuild
+        env:
+          GH_TOKEN: ${{ secrets.JAY_APPS_DISPATCH_TOKEN }}
+        run: |
+          gh workflow run deploy.yml --repo jdcondie/jay-apps --ref main
+          echo "Dispatched deploy.yml in jdcondie/jay-apps"
