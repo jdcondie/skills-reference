@@ -2281,7 +2281,6 @@ CATEGORIES.forEach(cat => {
     const pill = [...filterRow.querySelectorAll('.filter-pill')]
       .find(p => p.dataset.filter === cat);
     if (pill) setFilter(cat, pill);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   });
   wiringTags.appendChild(tag);
 });
@@ -2369,7 +2368,6 @@ function setFilter(value, clickedPill) {
   activeSearch = '';
 
   runFilter();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // ── Search (covers skills + playbooks) ───────────
