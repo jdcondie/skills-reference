@@ -660,11 +660,20 @@ footer p { font-size: 12px; color: #555; }
     </div>
   </div>
 
-  <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px;">
-    <button type="button" class="filter-pill active" onclick="filterPlaybooks('all', this)">All</button>
-    <button type="button" class="filter-pill" onclick="filterPlaybooks('agency', this)">Agency</button>
-    <button type="button" class="filter-pill" onclick="filterPlaybooks('universal', this)">Universal</button>
-    <button type="button" class="filter-pill" onclick="filterPlaybooks('specialist', this)">Specialist</button>
+  <div class="filter-block" style="margin-bottom: 24px;">
+    <div>
+      <div class="filter-group-label">Type</div>
+      <div class="filter-row" id="pbTypeRow">
+        <button type="button" class="filter-pill active" onclick="filterPlaybooks('all', this)">All</button>
+        <button type="button" class="filter-pill" onclick="filterPlaybooks('agency', this)">Agency</button>
+        <button type="button" class="filter-pill" onclick="filterPlaybooks('universal', this)">Universal</button>
+        <button type="button" class="filter-pill" onclick="filterPlaybooks('specialist', this)">Specialist</button>
+      </div>
+    </div>
+    <div>
+      <div class="filter-group-label">Topic</div>
+      <div class="filter-row" id="pbTagRow"></div>
+    </div>
   </div>
 
   <div class="card-grid" id="playbookGrid" style="grid-template-columns: repeat(3, 1fr);"></div>
@@ -2459,57 +2468,83 @@ runFilter();
 
 // ── Playbooks ────────────────────────────────────
 const PLAYBOOKS = [
-  { id: "A", name: "New Client Onboarding", type: "agency", trigger: "Client signed", output: "Strategy deck + campaign calendar",
+  { id: "A", name: "New Client Onboarding", type: "agency", tags: ["ops", "client"],
+    trigger: "Client signed", output: "Strategy deck + campaign calendar",
     steps: ["pb01-new-client-onboarding", "user-research-analyzer", "competitive-ads-extractor", "framework-extractor", "brand-campaign-calendar", "client-strategy-report"] },
-  { id: "B", name: "Paid Ads Campaign Launch", type: "agency", trigger: "Campaign kickoff", output: "Ad creatives + LP audit + test plan",
+  { id: "B", name: "Paid Ads Campaign Launch", type: "agency", tags: ["ads", "launch"],
+    trigger: "Campaign kickoff", output: "Ad creatives + LP audit + test plan",
     steps: ["pb02-paid-ads-sprint", "meta-ads-strategist", "pb06-creative-brief-builder", "landing-page-auditor", "copywriting-workshop", "pb13-creative-testing-cadence"] },
-  { id: "C", name: "Weekly Content Production", type: "agency", trigger: "Monday morning", output: "LinkedIn + newsletter + emails",
+  { id: "C", name: "Weekly Content Production", type: "agency", tags: ["content", "newsletter"],
+    trigger: "Monday morning", output: "LinkedIn + newsletter + emails",
     steps: ["morning-ops-briefing", "pb05-content-batch", "linkedin-content-machine", "newsletter-builder", "email-marketing-suite", "pb07-copy-concision-pass", "sharp-edit"] },
-  { id: "D", name: "Client Reporting Cycle", type: "agency", trigger: "Biweekly/monthly", output: "Performance report",
+  { id: "D", name: "Client Reporting Cycle", type: "agency", tags: ["ops", "client"],
+    trigger: "Biweekly/monthly", output: "Performance report",
     steps: ["pb08-performance-pulse", "pb19-weekly-ad-decisions", "pb17-campaign-hygiene-audit", "pb09-biweekly-client-update", "pb11-report-template-population"] },
-  { id: "E", name: "Lead Magnet Funnel", type: "agency", trigger: "New offer idea", output: "Complete funnel",
+  { id: "E", name: "Lead Magnet Funnel", type: "agency", tags: ["products", "email", "funnel"],
+    trigger: "New offer idea", output: "Complete funnel",
     steps: ["lead-magnet-engine", "offerarchitect-workshop", "landingpage-workshop", "emailsequence-workshop", "lead-magnet-welcome-email-writer", "pb20-service-landing-page"] },
-  { id: "F", name: "Sales Pipeline", type: "agency", trigger: "New prospect", output: "Proposal + scripts + pricing",
+  { id: "F", name: "Sales Pipeline", type: "agency", tags: ["sales"],
+    trigger: "New prospect", output: "Proposal + scripts + pricing",
     steps: ["pb04-agency-new-biz", "sales-proposal-workflow", "pb12-sales-call-loop", "pb16-objection-reframe", "pb14-margin-math"] },
-  { id: "G", name: "Content Repurposing", type: "agency", trigger: "Long-form piece done", output: "Multi-platform content",
+  { id: "G", name: "Content Repurposing", type: "agency", tags: ["content", "newsletter"],
+    trigger: "Long-form piece done", output: "Multi-platform content",
     steps: ["long-form-research-writer", "repurpose-workshop", "linkedin-content-machine", "scriptwriting-engine", "newsletter-builder", "email-marketing-suite"] },
-  { id: "H", name: "Digital Product Launch", type: "universal", trigger: "Product idea", output: "Validated offer + landing page + email funnel",
+  { id: "H", name: "Digital Product Launch", type: "universal", tags: ["products", "launch", "funnel"],
+    trigger: "Product idea", output: "Validated offer + landing page + email funnel",
     steps: ["dp-idea-and-validation", "dp-product-creation", "dp-offer-and-pricing", "dp-landing-page-builder", "dp-funnel-setup", "dp-launch-strategy", "dp-funnel-optimizer"] },
-  { id: "I", name: "Course Creation Sprint", type: "universal", trigger: "Course idea validated", output: "Course structure + sales page + launch emails",
+  { id: "I", name: "Course Creation Sprint", type: "universal", tags: ["products", "content"],
+    trigger: "Course idea validated", output: "Course structure + sales page + launch emails",
     steps: ["course-to-skills", "framework-extractor", "offerarchitect-workshop", "copywriting-workshop", "landingpage-workshop", "emailsequence-workshop", "email-subject-line-generator"] },
-  { id: "J", name: "Ghostwriting Business", type: "universal", trigger: "Starting/scaling", output: "ICP + offer + outreach + content system",
+  { id: "J", name: "Ghostwriting Business", type: "universal", tags: ["content", "sales", "strategy"],
+    trigger: "Starting/scaling", output: "ICP + offer + outreach + content system",
     steps: ["icp-definition", "positioning-audit", "offerarchitect-workshop", "linkedin-content-machine", "sales-proposal-workflow", "email-engine", "newsletter-engine"] },
-  { id: "K", name: "Creator Content Engine", type: "universal", trigger: "Building brand", output: "Multi-platform content system + growth",
+  { id: "K", name: "Creator Content Engine", type: "universal", tags: ["content", "newsletter"],
+    trigger: "Building brand", output: "Multi-platform content system + growth",
     steps: ["content-engine", "linkedin-content-machine", "newsletter-engine", "scriptwriting-engine", "repurpose-workshop", "email-marketing-suite"] },
-  { id: "L", name: "Low-Ticket Product Sprint", type: "universal", trigger: "Quick product needed", output: "$27-$97 product ready to sell",
+  { id: "L", name: "Low-Ticket Product Sprint", type: "universal", tags: ["products", "funnel", "launch"],
+    trigger: "Quick product needed", output: "$27-$97 product ready to sell",
     steps: ["dp-idea-and-validation", "dp-offer-and-pricing", "dp-product-creation", "dp-landing-page-builder", "dp-funnel-setup", "dp-upsell-designer"] },
-  { id: "M", name: "Publishing Empire", type: "universal", trigger: "6+ months content", output: "Repurposed long-form + newsletter + distribution",
+  { id: "M", name: "Publishing Empire", type: "universal", tags: ["content", "newsletter"],
+    trigger: "6+ months content", output: "Repurposed long-form + newsletter + distribution",
     steps: ["newsletter-engine", "long-form-research-writer", "repurpose-workshop", "copywriting-workshop", "email-marketing-suite", "linkedin-content-machine"] },
-  { id: "N", name: "Founder Clarity Sprint", type: "universal", trigger: "Overwhelmed/stuck", output: "Prioritized action list + system",
+  { id: "N", name: "Founder Clarity Sprint", type: "universal", tags: ["ops", "strategy"],
+    trigger: "Overwhelmed/stuck", output: "Prioritized action list + system",
     steps: ["hormozi-brainstorm", "pb10-chaos-to-checklist", "productivity-ops", "morning-ops-briefing", "framework-extractor"] },
-  { id: "O", name: "PMM Foundation Sprint", type: "specialist", trigger: "Repositioning / messaging off", output: "Positioning + ICP + messaging hierarchy",
+  { id: "O", name: "PMM Foundation Sprint", type: "specialist", tags: ["strategy", "positioning"],
+    trigger: "Repositioning / messaging off", output: "Positioning + ICP + messaging hierarchy",
     steps: ["positioning-audit", "icp-definition", "messaging-hierarchy", "voc-synthesis", "message-market-fit", "competitive-landing-page"] },
-  { id: "P", name: "Meta Ads Account Overhaul", type: "specialist", trigger: "Underperforming Meta account", output: "Full diagnosis + restructured campaigns",
+  { id: "P", name: "Meta Ads Account Overhaul", type: "specialist", tags: ["ads", "audit"],
+    trigger: "Underperforming Meta account", output: "Full diagnosis + restructured campaigns",
     steps: ["meta-full-account-audit", "meta-campaign-architecture", "meta-cpa-early-warning", "meta-creative-breakdown", "meta-budget-reallocation"] },
-  { id: "Q", name: "DTC Creative Velocity Sprint", type: "specialist", trigger: "Creative fatigue / new product", output: "Hooks + ad variations + creative briefs",
+  { id: "Q", name: "DTC Creative Velocity Sprint", type: "specialist", tags: ["ads", "copy"],
+    trigger: "Creative fatigue / new product", output: "Hooks + ad variations + creative briefs",
     steps: ["dtc-review-miner", "dtc-hook-writer", "dtc-ad-variations", "dtc-brief-generator", "dtc-fatigue-detector"] },
-  { id: "R", name: "CRO Pipeline", type: "specialist", trigger: "Page underperforming / pre-launch audit", output: "Diagnostic + full audit + rewritten page",
+  { id: "R", name: "CRO Pipeline", type: "specialist", tags: ["cro", "audit"],
+    trigger: "Page underperforming / pre-launch audit", output: "Diagnostic + full audit + rewritten page",
     steps: ["5-second-cro", "cro-audit", "landing-page-rewrite"] },
-  { id: "S", name: "Ad Creation Pipeline", type: "specialist", trigger: "New ad campaign from scratch", output: "Research brief + ad copy + test plan + launch package",
+  { id: "S", name: "Ad Creation Pipeline", type: "specialist", tags: ["ads", "copy"],
+    trigger: "New ad campaign from scratch", output: "Research brief + ad copy + test plan + launch package",
     steps: ["ads-research", "ads-copy", "ads-optimize"] },
-  { id: "T", name: "Story Creation Pipeline", type: "specialist", trigger: "Raw content needs story treatment", output: "Story spec + 11 versions + polished draft",
+  { id: "T", name: "Story Creation Pipeline", type: "specialist", tags: ["content", "copy"],
+    trigger: "Raw content needs story treatment", output: "Story spec + 11 versions + polished draft",
     steps: ["story-extractor", "story-generator", "narrative-architect"] },
-  { id: "U", name: "Sales Pipeline", type: "specialist", trigger: "New prospect to close", output: "Qualified leads + call prep + proposals + follow-ups",
+  { id: "U", name: "Sales Pipeline", type: "specialist", tags: ["sales", "client"],
+    trigger: "New prospect to close", output: "Qualified leads + call prep + proposals + follow-ups",
     steps: ["sales-prospecting", "sales-call-prep", "sales-close", "client-launch", "client-responder"] },
-  { id: "V", name: "Newsletter Launch", type: "universal", trigger: "Starting a newsletter", output: "Positioned newsletter with welcome sequence + first issues",
+  { id: "V", name: "Newsletter Launch", type: "universal", tags: ["newsletter", "launch"],
+    trigger: "Starting a newsletter", output: "Positioned newsletter with welcome sequence + first issues",
     steps: ["newsletter-niche-finder", "newsletter-name-generator", "newsletter-positioning-builder", "newsletter-about-page-writer", "welcome-sequence-writer", "newsletter-writer"] },
-  { id: "W", name: "Newsletter Growth Sprint", type: "specialist", trigger: "Newsletter stalled / needs growth", output: "Growth system + content repurposing + monetization plan",
+  { id: "W", name: "Newsletter Growth Sprint", type: "specialist", tags: ["newsletter", "strategy"],
+    trigger: "Newsletter stalled / needs growth", output: "Growth system + content repurposing + monetization plan",
     steps: ["social-cta-writer", "guest-post-system", "newsletter-repurposing-system", "viral-drop-builder", "substack-notes-planner", "nmm-sponsorship-monetization"] },
-  { id: "X", name: "Email Sequence Builder", type: "specialist", trigger: "Need automated email flows", output: "Complete email automation suite",
+  { id: "X", name: "Email Sequence Builder", type: "specialist", tags: ["email", "funnel"],
+    trigger: "Need automated email flows", output: "Complete email automation suite",
     steps: ["welcome-sequence-writer", "pre-launch-sequence-writer", "launch-sequence-writer", "post-purchase-sequence-writer", "million-dollar-sequence-writer", "abandoned-cart-sequence-writer"] },
-  { id: "Y", name: "GTM Launch Sprint", type: "specialist", trigger: "New product/service going to market", output: "ICP + positioning + outreach + sales materials",
+  { id: "Y", name: "GTM Launch Sprint", type: "specialist", tags: ["sales", "strategy", "launch"],
+    trigger: "New product/service going to market", output: "ICP + positioning + outreach + sales materials",
     steps: ["icp-modeller", "gtm-strategist", "outbound-copywriter", "discovery-prep", "proposal-writer", "sales-call-runner"] },
-  { id: "Z", name: "Sales Letter Sprint", type: "specialist", trigger: "Need a direct response sales letter", output: "Research + hooks + complete sales letter",
+  { id: "Z", name: "Sales Letter Sprint", type: "specialist", tags: ["copy", "sales"],
+    trigger: "Need a direct response sales letter", output: "Research + hooks + complete sales letter",
     steps: ["audience-research", "copy-strategy-foundation", "hook-generator", "sales-letter-writer"] },
 ];
 
@@ -2538,6 +2573,7 @@ PLAYBOOKS.forEach(pb => {
   const card = document.createElement('div');
   card.className = 'card pb-card';
   card.dataset.pbtype = pb.type;
+  card.dataset.pbtags = (pb.tags || []).join(',');
 
   const stepsHtml = pb.steps.map((s, i) =>
     `<div class="pb-step">
@@ -2610,13 +2646,70 @@ PLAYBOOKS.forEach(pb => {
   playbookGrid.appendChild(card);
 });
 
-function filterPlaybooks(type, btn) {
-  document.querySelectorAll('#playbooksSection .filter-pill').forEach(p => p.classList.remove('active'));
-  btn.classList.add('active');
+let activePbType = 'all';
+let activePbTag  = 'all';
+
+function applyPbFilter() {
   playbookGrid.querySelectorAll('.card').forEach(card => {
-    card.classList.toggle('hidden', type !== 'all' && card.dataset.pbtype !== type);
+    const typeMatch = activePbType === 'all' || card.dataset.pbtype === activePbType;
+    const tagMatch  = activePbTag  === 'all' || (card.dataset.pbtags || '').split(',').includes(activePbTag);
+    card.classList.toggle('hidden', !(typeMatch && tagMatch));
   });
 }
+
+function filterPlaybooks(type, btn) {
+  activePbType = type;
+  document.querySelectorAll('#pbTypeRow .filter-pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  applyPbFilter();
+}
+
+function filterPlaybooksByTag(tag, btn) {
+  activePbTag = tag;
+  document.querySelectorAll('#pbTagRow .topic-pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  applyPbFilter();
+}
+
+// Build playbook topic pills dynamically
+const pbTagRow = document.getElementById('pbTagRow');
+const PB_TOPIC_LABELS = {
+  ads:        "Ads",
+  audit:      "Audit",
+  client:     "Client",
+  content:    "Content",
+  copy:       "Copy",
+  cro:        "CRO",
+  email:      "Email",
+  funnel:     "Funnel",
+  launch:     "Launch",
+  newsletter: "Newsletter",
+  ops:        "Ops",
+  positioning:"Positioning",
+  products:   "Products",
+  sales:      "Sales",
+  strategy:   "Strategy",
+};
+// Collect all tags that appear in the playbooks data
+const pbTagCounts = {};
+PLAYBOOKS.forEach(pb => (pb.tags || []).forEach(t => { pbTagCounts[t] = (pbTagCounts[t] || 0) + 1; }));
+
+function makePbTagPill(label, tag, count, active) {
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'topic-pill' + (active ? ' active' : '');
+  btn.innerHTML = active ? label : `${label}<span class="topic-count">${count}</span>`;
+  btn.dataset.tag = tag;
+  btn.addEventListener('click', e => { e.preventDefault(); filterPlaybooksByTag(tag, btn); });
+  pbTagRow.appendChild(btn);
+}
+
+makePbTagPill('All', 'all', PLAYBOOKS.length, true);
+Object.entries(pbTagCounts)
+  .sort((a, b) => b[1] - a[1])
+  .forEach(([tag, count]) => {
+    makePbTagPill(PB_TOPIC_LABELS[tag] || tag, tag, count, false);
+  });
 
 // ── View toggle (grid / list) ────────────────────
 const viewToggle = document.getElementById('viewToggle');
