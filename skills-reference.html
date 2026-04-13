@@ -904,6 +904,20 @@ const ICONS = {
   "Meta Ads": `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 7l10 5 10-5-10-5z" stroke="#111" stroke-width="1.8" stroke-linejoin="round"/><path d="M2 17l10 5 10-5" stroke="#111" stroke-width="1.8" stroke-linejoin="round"/><path d="M2 12l10 5 10-5" stroke="#111" stroke-width="1.8" stroke-linejoin="round"/></svg>`,
 
   "DTC Creative": `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="20" height="20" rx="2" stroke="#111" stroke-width="1.8"/><path d="M8 8l8 8M16 8l-8 8" stroke="#111" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="12" r="3" stroke="#111" stroke-width="1.5"/></svg>`,
+
+  "CRO / Conversion": `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><polyline points="22,6 13,15 9,11 2,18" stroke="#111" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><polyline points="16,6 22,6 22,12" stroke="#111" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+
+  "Copywriting / Ads": `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17 3l4 4L8 20H4v-4L17 3z" stroke="#111" stroke-width="1.8" stroke-linejoin="round"/><line x1="14" y1="6" x2="18" y2="10" stroke="#111" stroke-width="1.8"/><line x1="4" y1="22" x2="20" y2="22" stroke="#111" stroke-width="1.8" stroke-linecap="round"/></svg>`,
+
+  "Sales": `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="12" y1="1" x2="12" y2="23" stroke="#111" stroke-width="1.8" stroke-linecap="round"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="#111" stroke-width="1.8" stroke-linecap="round"/></svg>`,
+
+  "Storytelling": `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" stroke="#111" stroke-width="1.8" stroke-linejoin="round"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" stroke="#111" stroke-width="1.8" stroke-linejoin="round"/></svg>`,
+
+  "Speech / Communication": `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="#111" stroke-width="1.8" stroke-linejoin="round"/></svg>`,
+
+  "Thinking / Clarity": `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" stroke="#111" stroke-width="1.8"/><line x1="12" y1="16" x2="12" y2="12" stroke="#111" stroke-width="1.8" stroke-linecap="round"/><line x1="12" y1="8" x2="12.01" y2="8" stroke="#111" stroke-width="2.5" stroke-linecap="round"/></svg>`,
+
+  "Personal / Growth": `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2z" stroke="#111" stroke-width="1.8" stroke-linejoin="round"/></svg>`,
 };
 
 const SKILLS = [
@@ -1613,7 +1627,187 @@ const SKILLS = [
   { cat: "Notion", icon: "📋", iconClass: "icon-gray",
     n: "Notion:tasks:explain-diff",
     d: "Explains differences between task states",
-    u: "Reviewing what changed in task system" }
+    u: "Reviewing what changed in task system" },
+
+  // ── CRO / Conversion ─────────────────────────
+  { cat: "CRO / Conversion", icon: "📈", iconClass: "icon-red",
+    n: "5-second-cro",
+    d: "5-second cold-visitor test scoring 10 above-the-fold conversion factors",
+    u: "Quick diagnostic before a full audit" },
+  { cat: "CRO / Conversion", icon: "📈", iconClass: "icon-red",
+    n: "cro-audit",
+    d: "Full structured CRO audit: hero, product pages, collections, proof, email capture",
+    u: "Deep conversion audit for DTC or local-service sites" },
+  { cat: "CRO / Conversion", icon: "📈", iconClass: "icon-red",
+    n: "landing-page-rewrite",
+    d: "Rewrites landing pages using Hormozi Irresistible Offer framework",
+    u: "Implementing audit findings into actual page copy" },
+  { cat: "CRO / Conversion", icon: "📈", iconClass: "icon-red",
+    n: "url-to-lovable",
+    d: "Extracts site content into Lovable-ready copy deck (YAML/JSON) with Proof-First positioning",
+    u: "Converting a live site into a structured copy deck" },
+
+  // ── Copywriting / Ads ─────────────────────────
+  { cat: "Copywriting / Ads", icon: "📝", iconClass: "icon-yellow",
+    n: "ads-research",
+    d: "Audience analysis, competitor mapping, JTBD extraction, 6-8 messaging angles from a URL",
+    u: "Strategic research before writing any ad copy" },
+  { cat: "Copywriting / Ads", icon: "📝", iconClass: "icon-yellow",
+    n: "ads-copy",
+    d: "Generates long-form ads, alt formats, and modular Copy Bank from research brief",
+    u: "Writing ad copy from a completed research brief" },
+  { cat: "Copywriting / Ads", icon: "📝", iconClass: "icon-yellow",
+    n: "ads-optimize",
+    d: "Compliance check, A/B test plan, and final campaign packaging",
+    u: "Final QA and launch prep for ad campaigns" },
+  { cat: "Copywriting / Ads", icon: "📝", iconClass: "icon-yellow",
+    n: "copywriting-god",
+    d: "Generates 6 Meta ad units + website copy across funnel stages with V-F-U scoring",
+    u: "Full-funnel Meta ad copy production" },
+  { cat: "Copywriting / Ads", icon: "📝", iconClass: "icon-yellow",
+    n: "make-it-sticky",
+    d: "Converts abstract ideas into 10 memorable slogans using SUCCESs Model",
+    u: "Creating sticky taglines, slogans, or one-liners" },
+  { cat: "Copywriting / Ads", icon: "📝", iconClass: "icon-yellow",
+    n: "pitch-generator",
+    d: "Generates 3 distinct sales pitches with Hook-Problem-Solution-Why Us framework",
+    u: "Quick pitch variations for a product or service" },
+  { cat: "Copywriting / Ads", icon: "📝", iconClass: "icon-yellow",
+    n: "linkedin-optimizer",
+    d: "Rewrites LinkedIn profile for inbound leads: headline, banner, about, featured, services",
+    u: "Optimizing LinkedIn for conversion" },
+
+  // ── Sales ─────────────────────────────────────
+  { cat: "Sales", icon: "💰", iconClass: "icon-green",
+    n: "sales-prospecting",
+    d: "Finds and qualifies leads (LeadMiner) + maps target accounts (Painseeker)",
+    u: "Prospecting and lead qualification" },
+  { cat: "Sales", icon: "💰", iconClass: "icon-green",
+    n: "sales-call-prep",
+    d: "Builds pre-call brief (CallAssistant) + multi-channel outreach copy (DMBuilder)",
+    u: "Before any sales call or outreach" },
+  { cat: "Sales", icon: "💰", iconClass: "icon-green",
+    n: "sales-close",
+    d: "Handles objections, generates proposals, writes follow-up sequences",
+    u: "Closing deals and post-call follow-up" },
+  { cat: "Sales", icon: "💰", iconClass: "icon-green",
+    n: "sales-roleplay",
+    d: "Simulates sales calls with 10 configurable personas and post-call scoring",
+    u: "Practicing sales conversations and handling objections" },
+  { cat: "Sales", icon: "💰", iconClass: "icon-green",
+    n: "client-launch",
+    d: "Generates onboarding docs, client-facing agenda, and call notes from brand inputs",
+    u: "First day with a new client" },
+  { cat: "Sales", icon: "💰", iconClass: "icon-green",
+    n: "client-responder",
+    d: "Writes client Slack, email, and call recaps in two voice modes",
+    u: "Any client communication during an engagement" },
+
+  // ── Storytelling ──────────────────────────────
+  { cat: "Storytelling", icon: "📖", iconClass: "icon-purple",
+    n: "story-extractor",
+    d: "Extracts structured Story Spec (logline, beats, voice, motifs, JSON) from any story",
+    u: "Breaking down existing content into reusable story structure" },
+  { cat: "Storytelling", icon: "📖", iconClass: "icon-purple",
+    n: "story-generator",
+    d: "Generates 11 story versions from a Story Spec across frameworks and formats",
+    u: "Creating story variations from a spec" },
+  { cat: "Storytelling", icon: "📖", iconClass: "icon-purple",
+    n: "narrative-architect",
+    d: "Edits and coaches story drafts with 18-section Playbook extraction",
+    u: "Refining a draft into a polished story" },
+  { cat: "Storytelling", icon: "📖", iconClass: "icon-purple",
+    n: "story-analyst",
+    d: "Analyzes stories using Callaway's Story Ladder + advanced mechanics, or writes new ones",
+    u: "Story analysis or writing using proven frameworks" },
+  { cat: "Storytelling", icon: "📖", iconClass: "icon-purple",
+    n: "fiction-writer",
+    d: "Guides complete novel build through 5 phases with live ledger",
+    u: "Writing fiction from scratch" },
+  { cat: "Storytelling", icon: "📖", iconClass: "icon-purple",
+    n: "mystery-writer",
+    d: "Two modes: guided 9-phase mystery build or one-shot text-to-mystery conversion",
+    u: "Writing mystery stories or converting content into mystery format" },
+  { cat: "Storytelling", icon: "📖", iconClass: "icon-purple",
+    n: "style-fusion-writer",
+    d: "Converts any input into high-signal content using Jay's voice with parameterized modes",
+    u: "Writing in Jay's voice across micro, essay, or story formats" },
+
+  // ── Speech / Communication ────────────────────
+  { cat: "Speech / Communication", icon: "🎙️", iconClass: "icon-teal",
+    n: "conversation-analyst",
+    d: "Analyzes interview transcripts for question patterns, turn-taking, and follow-up chains",
+    u: "After interviews or conversations worth deconstructing" },
+  { cat: "Speech / Communication", icon: "🎙️", iconClass: "icon-teal",
+    n: "speech-coach",
+    d: "Evaluates and rewrites messages using 3C Framework (Control, Confidence, Connection)",
+    u: "Improving how you communicate in any context" },
+  { cat: "Speech / Communication", icon: "🎙️", iconClass: "icon-teal",
+    n: "speech-writer",
+    d: "Generates or transforms speeches using Ethos, Pathos, Logos persuasion stack",
+    u: "Writing speeches, talks, or presentations" },
+
+  // ── Thinking / Clarity ────────────────────────
+  { cat: "Thinking / Clarity", icon: "🧠", iconClass: "icon-indigo",
+    n: "better-questions",
+    d: "Upgrades generic questions into 4 sharper versions using Inversion, Specificity, Emotion, Story",
+    u: "Asking better questions before interviews, research, or decisions" },
+  { cat: "Thinking / Clarity", icon: "🧠", iconClass: "icon-indigo",
+    n: "decision-making-gym",
+    d: "Guided journaling through TRUST framework + SAGE dimensions + 9 Mental Models",
+    u: "Working through a hard decision" },
+  { cat: "Thinking / Clarity", icon: "🧠", iconClass: "icon-indigo",
+    n: "thought-organizer",
+    d: "Transforms messy brain dumps into Notion-ready working docs with 9 sections",
+    u: "Turning chaos into structured clarity" },
+  { cat: "Thinking / Clarity", icon: "🧠", iconClass: "icon-indigo",
+    n: "radical-clarity",
+    d: "Guided journaling using David Bayer's 3-Step Miracle Formula with somatic awareness",
+    u: "Getting unstuck through embodied decision-making" },
+
+  // ── Personal / Growth ─────────────────────────
+  { cat: "Personal / Growth", icon: "⭐", iconClass: "icon-purple",
+    n: "mental-performance",
+    d: "3 visualization/meditation modes: Performance Prep, Warrior Anthem, Life Vision",
+    u: "Pre-event mental rehearsal or daily visualization" },
+  { cat: "Personal / Growth", icon: "⭐", iconClass: "icon-purple",
+    n: "stack-your-wins",
+    d: "Transforms any goal into an 8-week mythic questline with rituals and symbolic rewards",
+    u: "Gamifying a goal into an actionable system" },
+  { cat: "Personal / Growth", icon: "⭐", iconClass: "icon-purple",
+    n: "second-brain",
+    d: "Synthesizes PDFs and reference materials into Notion-ready docs with frameworks and tactics",
+    u: "Processing reference material into structured knowledge" },
+  { cat: "Personal / Growth", icon: "⭐", iconClass: "icon-purple",
+    n: "jays-second-brain",
+    d: "Emulates Jay's thinking style, routing to 6 voice modules (Writing, Ads, Scripts, Essays, Micro, DM)",
+    u: "Thinking through problems in Jay's voice" },
+  { cat: "Personal / Growth", icon: "⭐", iconClass: "icon-purple",
+    n: "ghostwriter-gpt",
+    d: "7-module content system: niche, positioning, offer, outreach, short-form, LinkedIn, newsletter",
+    u: "Running a ghostwriting or content business" },
+  { cat: "Personal / Growth", icon: "⭐", iconClass: "icon-purple",
+    n: "pantry-pilot",
+    d: "In-chat inventory management and meal planning with grocery list generation",
+    u: "Meal planning and pantry tracking" },
+
+  // ── Content / Formatting (new from GPT) ───────
+  { cat: "Writing / Editing", icon: "✏️", iconClass: "icon-gray",
+    n: "concept-compressor",
+    d: "Compresses long text to ~25% while preserving core meaning and structure",
+    u: "Distilling long content into key points" },
+  { cat: "Writing / Editing", icon: "✏️", iconClass: "icon-gray",
+    n: "skimmable",
+    d: "Reformats text for max vertical readability with Dan Koe chunking and TOC",
+    u: "Making any content scannable and easy to read" },
+  { cat: "Writing / Editing", icon: "✏️", iconClass: "icon-gray",
+    n: "subtracting-the-80",
+    d: "Identifies single highest-leverage priority using The One Thing + Subtractive Thinking",
+    u: "Cutting through noise to find what matters" },
+  { cat: "Writing / Editing", icon: "✏️", iconClass: "icon-gray",
+    n: "tag-master",
+    d: "Converts raw text into Notion-ready tagged documents with markdown hierarchy",
+    u: "Structuring raw content for Notion" }
 ];
 
 // ── Derived data ─────────────────────────────────
@@ -1631,6 +1825,13 @@ const CATEGORY_ORDER = [
   "Design / Visual / Brand",    // campaign and brand assets
   "Frontend / Build",           // pages, tools, builds
   "File / Output",              // deliverables and exports
+  "CRO / Conversion",           // conversion rate optimization
+  "Copywriting / Ads",          // ad research, copy, optimization
+  "Sales",                      // prospecting, closing, client management
+  "Storytelling",               // fiction, narrative, story frameworks
+  "Speech / Communication",     // speeches, conversation analysis, coaching
+  "Thinking / Clarity",         // decision-making, journaling, focus
+  "Personal / Growth",          // mental performance, goal systems
   "Notion",                     // ops and task management
   "System / Claude Code",       // meta: Claude setup and automation
   "Skill Creation",             // meta: building new skills
@@ -1658,6 +1859,13 @@ const CAT_COLORS = {
   "Design / Visual / Brand": "#c026d3",
   "Frontend / Build": "#2563eb",
   "File / Output": "#64748b",
+  "CRO / Conversion": "#dc2626",
+  "Copywriting / Ads": "#b45309",
+  "Sales": "#059669",
+  "Storytelling": "#7c3aed",
+  "Speech / Communication": "#0d9488",
+  "Thinking / Clarity": "#4f46e5",
+  "Personal / Growth": "#c026d3",
   "Notion": "#111",
   "System / Claude Code": "#111",
   "Skill Creation": "#E8541A",
@@ -1889,6 +2097,14 @@ const PLAYBOOKS = [
     steps: ["meta-full-account-audit", "meta-campaign-architecture", "meta-cpa-early-warning", "meta-creative-breakdown", "meta-budget-reallocation"] },
   { id: "Q", name: "DTC Creative Velocity Sprint", type: "specialist", trigger: "Creative fatigue / new product", output: "Hooks + ad variations + creative briefs",
     steps: ["dtc-review-miner", "dtc-hook-writer", "dtc-ad-variations", "dtc-brief-generator", "dtc-fatigue-detector"] },
+  { id: "R", name: "CRO Pipeline", type: "specialist", trigger: "Page underperforming / pre-launch audit", output: "Diagnostic + full audit + rewritten page",
+    steps: ["5-second-cro", "cro-audit", "landing-page-rewrite"] },
+  { id: "S", name: "Ad Creation Pipeline", type: "specialist", trigger: "New ad campaign from scratch", output: "Research brief + ad copy + test plan + launch package",
+    steps: ["ads-research", "ads-copy", "ads-optimize"] },
+  { id: "T", name: "Story Creation Pipeline", type: "specialist", trigger: "Raw content needs story treatment", output: "Story spec + 11 versions + polished draft",
+    steps: ["story-extractor", "story-generator", "narrative-architect"] },
+  { id: "U", name: "Sales Pipeline", type: "specialist", trigger: "New prospect to close", output: "Qualified leads + call prep + proposals + follow-ups",
+    steps: ["sales-prospecting", "sales-call-prep", "sales-close", "client-launch", "client-responder"] },
 ];
 
 const typeColors = { agency: "var(--green)", universal: "var(--blue)", specialist: "var(--orange)" };
