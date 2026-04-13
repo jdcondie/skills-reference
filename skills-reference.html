@@ -298,6 +298,28 @@ nav {
 .filter-pill:hover { border-color: var(--orange); color: var(--orange); }
 .filter-pill.active { background: var(--orange); border-color: var(--orange); color: var(--white); }
 
+/* ── TOPIC FILTER ROW ──────────────────────────── */
+.filter-block { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+.filter-group-label {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--gray-500);
+  padding: 0 2px;
+}
+.topic-pill {
+  padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 600;
+  border: 1.5px solid var(--gray-300); background: var(--gray-50);
+  color: var(--gray-700); cursor: pointer; transition: all 0.15s;
+  font-family: inherit;
+}
+.topic-pill:hover { border-color: var(--gray-700); color: var(--black); background: var(--white); }
+.topic-pill.active { background: var(--black); border-color: var(--black); color: var(--white); }
+.topic-count {
+  font-size: 9px; font-weight: 700; opacity: 0.55;
+  background: rgba(255,255,255,0.2); border-radius: 100px;
+  padding: 1px 5px; margin-left: 3px;
+}
+.topic-pill:not(.active) .topic-count { background: var(--gray-300); color: var(--gray-700); opacity: 1; }
+
 /* ── CARD GRID ─────────────────────────────────── */
 .card-grid {
   display: grid;
@@ -633,7 +655,7 @@ footer p { font-size: 12px; color: #555; }
   <div class="section-header-row">
     <div>
       <div class="section-label">Sequential Playbooks</div>
-      <div class="section-title">17 playbooks. Chained workflows.</div>
+      <div class="section-title">26 playbooks. Chained workflows.</div>
       <div class="section-sub">Click any playbook to copy the full prompt chain to your clipboard.</div>
     </div>
   </div>
@@ -669,7 +691,16 @@ footer p { font-size: 12px; color: #555; }
   </div>
 
   <!-- FILTER PILLS -->
-  <div class="filter-row" id="filterRow" style="margin-bottom: 28px;"></div>
+  <div class="filter-block">
+    <div>
+      <div class="filter-group-label">Category</div>
+      <div class="filter-row" id="filterRow"></div>
+    </div>
+    <div>
+      <div class="filter-group-label">Topic</div>
+      <div class="filter-row" id="topicRow"></div>
+    </div>
+  </div>
 
   <!-- CARD GRID -->
   <div class="card-grid" id="cardGrid"></div>
@@ -2184,6 +2215,60 @@ CATEGORIES.forEach(cat => {
   makePill(cat, cat, false, CAT_COLORS[cat]);
 });
 
+// ── Topic tag rules (auto-derived, no new data needed) ──
+const TOPIC_RULES = [
+  { label: "Hooks",         test: s => /hook|thumb.?stop/i.test(s.n + ' ' + s.d) },
+  { label: "Copy",          test: s => /copy|sales.letter|copywrite|letter/i.test(s.n + ' ' + s.d) && !/report|brief/i.test(s.n) },
+  { label: "Landing Pages", test: s => /landing.?page|lp.build|page.build|site.build/i.test(s.n + ' ' + s.d) },
+  { label: "Email",         test: s => s.cat === 'Email' || /\bemail\b/i.test(s.n + ' ' + s.d) },
+  { label: "Sequences",     test: s => /sequence|automat/i.test(s.n + ' ' + s.d) },
+  { label: "Audits",        test: s => /audit|diagnos|review|inspector/i.test(s.n + ' ' + s.d) },
+  { label: "Research",      test: s => /research|interview|keyword|voc|survey|miner|extractor/i.test(s.n + ' ' + s.d) },
+  { label: "Strategy",      test: s => /strateg|positioning|icp|gtm|messaging|architect/i.test(s.n + ' ' + s.d) },
+  { label: "Ads",           test: s => ['Meta Ads','Paid Ads','DTC Creative','Copywriting / Ads'].includes(s.cat) },
+  { label: "Newsletter",    test: s => ['Newsletter / Content','Newsletter Growth'].includes(s.cat) || /newsletter/i.test(s.n) },
+  { label: "Digital Product", test: s => s.cat === 'Digital Products' || /^dp-/.test(s.n) },
+  { label: "Social",        test: s => /linkedin|social|tweet|thread|instagram/i.test(s.n + ' ' + s.d) },
+  { label: "Reports",       test: s => /report|pulse|brief|update|roundup/i.test(s.n + ' ' + s.d) },
+  { label: "Monetization",  test: s => /monetiz|revenue|affiliate|sponsor|subscript|pricing/i.test(s.n + ' ' + s.d) },
+  { label: "Repurpose",     test: s => /repurpos/i.test(s.n + ' ' + s.d) },
+];
+
+// Compute which skills match each topic, store on skill objects
+SKILLS.forEach(s => {
+  s._topics = TOPIC_RULES
+    .filter(r => r.test(s))
+    .map(r => r.label);
+});
+
+// Build topic pills
+const topicRow = document.getElementById('topicRow');
+let activeTopic = 'all';
+
+function makeTopicPill(label, count, active) {
+  const btn = document.createElement('button');
+  btn.className = 'topic-pill' + (active ? ' active' : '');
+  btn.innerHTML = label === 'All Topics'
+    ? label
+    : `${label}<span class="topic-count">${count}</span>`;
+  btn.dataset.topic = label === 'All Topics' ? 'all' : label;
+  btn.addEventListener('click', () => setTopic(btn.dataset.topic, btn));
+  topicRow.appendChild(btn);
+}
+
+makeTopicPill('All Topics', SKILLS.length, true);
+TOPIC_RULES.forEach(rule => {
+  const count = SKILLS.filter(s => s._topics.includes(rule.label)).length;
+  if (count > 0) makeTopicPill(rule.label, count, false);
+});
+
+function setTopic(value, clickedBtn) {
+  activeTopic = value;
+  document.querySelectorAll('.topic-pill').forEach(p => p.classList.remove('active'));
+  clickedBtn.classList.add('active');
+  runFilter();
+}
+
 // ── Build wiring tags ────────────────────────────
 const wiringTags = document.getElementById('wiringTags');
 CATEGORIES.forEach(cat => {
@@ -2208,6 +2293,7 @@ SKILLS.forEach(skill => {
   const card = document.createElement('div');
   card.className = 'card';
   card.dataset.cat = skill.cat;
+  card.dataset.topics = (skill._topics || []).join(',');
   card.dataset.search = `${skill.n} ${skill.d} ${skill.u}`.toLowerCase();
 
   card.innerHTML = `
@@ -2240,10 +2326,11 @@ let activeSearch = '';
 
 function runFilter() {
   let visible = 0;
-  document.querySelectorAll('.card').forEach(card => {
+  document.querySelectorAll('#cardGrid .card').forEach(card => {
     const catMatch = activeFilter === 'all' || card.dataset.cat === activeFilter;
+    const topicMatch = activeTopic === 'all' || (card.dataset.topics || '').split(',').includes(activeTopic);
     const searchMatch = !activeSearch || card.dataset.search.includes(activeSearch);
-    const show = catMatch && searchMatch;
+    const show = catMatch && topicMatch && searchMatch;
     card.classList.toggle('hidden', !show);
     if (show) visible++;
   });
@@ -2260,6 +2347,12 @@ function setFilter(value, clickedPill) {
   document.querySelectorAll('.wiring-tag').forEach(t => {
     t.classList.toggle('active', t.dataset.filter === value);
   });
+
+  // Reset topic filter when switching categories
+  activeTopic = 'all';
+  document.querySelectorAll('.topic-pill').forEach(p => p.classList.remove('active'));
+  const allTopicPill = topicRow.querySelector('[data-topic="all"]');
+  if (allTopicPill) allTopicPill.classList.add('active');
 
   // Update section label
   if (value === 'all') {
