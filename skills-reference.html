@@ -655,7 +655,7 @@ footer p { font-size: 12px; color: #555; }
   <div class="section-header-row">
     <div>
       <div class="section-label">Sequential Playbooks</div>
-      <div class="section-title">26 playbooks. Chained workflows.</div>
+      <div class="section-title">31 playbooks. Chained workflows.</div>
       <div class="section-sub">Click any playbook to copy the full prompt chain to your clipboard.</div>
     </div>
   </div>
@@ -983,6 +983,16 @@ const NAMES = {
   "newsletter-autoplug-writer":                                 "Auto-Plug Writer",
   "paywall-converter":                                          "Paywall Converter",
   "substack-notes-strategy":                                    "Notes Strategy",
+  // New — LinkedIn + CRO + Launch
+  "linkedin-profile-audit":                                     "Profile Audit",
+  "linkedin-algorithm-optimizer":                               "Algorithm Optimizer",
+  "linkedin-analytics-interpreter":                             "Analytics Interpreter",
+  "linkedin-connection-request-writer":                         "Connection Request",
+  "turn-one-newsletter-into-a-week-of-linkedin-content":        "Newsletter → LinkedIn Week",
+  "write-course-with-ai":                                       "Course Builder",
+  "competitor-conversion-teardown":                             "Competitor Teardown",
+  "test-prioritization-matrix":                                 "Test Prioritization",
+  "product-launch-20-email-playbook":                           "20-Email Launch Playbook",
 };
 
 const ICONS = {
@@ -2567,6 +2577,21 @@ const PLAYBOOKS = [
   { id: "Z", name: "Sales Letter Sprint", type: "specialist", tags: ["copy", "sales"],
     trigger: "Need a direct response sales letter", output: "Research + hooks + complete sales letter",
     steps: ["audience-research", "copy-strategy-foundation", "hook-generator", "sales-letter-writer"] },
+  { id: "AA", name: "LinkedIn Profile Relaunch", type: "specialist", tags: ["content", "positioning"],
+    trigger: "Profile not converting / repositioning", output: "Scored profile + rewritten sections + posting plan",
+    steps: ["linkedin-profile-audit", "positioning-audit", "linkedin-post-writer", "linkedin-algorithm-optimizer"] },
+  { id: "BB", name: "LinkedIn Weekly Content Engine", type: "universal", tags: ["content", "newsletter"],
+    trigger: "Newsletter published, need LinkedIn week", output: "5 platform-native posts + timing + post-mortem",
+    steps: ["newsletter-writer", "turn-one-newsletter-into-a-week-of-linkedin-content", "linkedin-algorithm-optimizer", "linkedin-analytics-interpreter"] },
+  { id: "CC", name: "CRO Teardown → Test Pipeline", type: "specialist", tags: ["cro", "audit"],
+    trigger: "Underperforming page + live competitors", output: "Competitor teardown + audit + prioritized tests + rewrite",
+    steps: ["competitor-conversion-teardown", "cro-audit", "test-prioritization-matrix", "landing-page-rewrite"] },
+  { id: "DD", name: "Course-to-Launch Sprint", type: "universal", tags: ["products", "launch"],
+    trigger: "Idea → launched course in 60 days", output: "Built course + landing page + full 20-email launch",
+    steps: ["write-course-with-ai", "offerarchitect-workshop", "landingpage-workshop", "product-launch-20-email-playbook"] },
+  { id: "EE", name: "Cold LinkedIn → Conversation", type: "specialist", tags: ["sales", "content"],
+    trigger: "Targeted outbound on LinkedIn", output: "ICP-tuned notes + first DMs + follow-up sequence",
+    steps: ["icp-definition", "linkedin-connection-request-writer", "outbound-copywriter"] },
 ];
 
 const typeColors = { agency: "var(--green)", universal: "var(--blue)", specialist: "var(--orange)" };
