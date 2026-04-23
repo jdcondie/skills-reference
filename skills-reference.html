@@ -751,6 +751,11 @@ const NAMES = {
   "claude-api":                                                 "API Builder",
   "claude-code-setup:claude-automation-recommender":            "Automation Advisor",
   "skill-creator:skill-creator":                                "Skill Builder",
+  "crosscheck":                                                 "Crosscheck",
+  "skill-auto-improve":                                         "Auto-Improve",
+  "setting-up-mcps":                                            "MCP Setup",
+  "social-media-dashboard-builder":                             "Social Dashboard",
+  "linkedin-profile-scraper":                                   "LinkedIn Scraper",
   // Email
   "anthropic-skills:jay-email-drafter":                         "Email Drafter",
   "email-copy-optimizer":                                       "Email Optimizer",
@@ -1090,6 +1095,18 @@ const SKILLS = [
     n: "anthropic-skills:schedule",
     d: "Creates and manages scheduled remote agents (alt)",
     u: "Automating recurring Claude tasks" },
+  { cat: "System / Claude Code", icon: "⚙️", iconClass: "icon-gray",
+    n: "crosscheck",
+    d: "Cross-references Claude output against GPT and Gemini via OpenRouter",
+    u: "Getting a second opinion from another frontier model" },
+  { cat: "System / Claude Code", icon: "⚙️", iconClass: "icon-gray",
+    n: "skill-auto-improve",
+    d: "Passive skill-improvement loop: logs failures, auto-patches skills after recurring issues",
+    u: "Internal behavior; let skills improve themselves from real usage" },
+  { cat: "System / Claude Code", icon: "⚙️", iconClass: "icon-gray",
+    n: "setting-up-mcps",
+    d: "Walks through adding, authing, and troubleshooting MCP servers",
+    u: "Connecting Claude Code to GitHub, Notion, databases, or any MCP tool" },
 
   // ── Email ─────────────────────────────────────
   { cat: "Email", icon: "✉️", iconClass: "icon-blue",
@@ -1574,6 +1591,10 @@ const SKILLS = [
     n: "anthropic-skills:setup-cowork",
     d: "Sets up Cowork Camp project scaffolding",
     u: "Spinning up a new Cowork Camp build" },
+  { cat: "Frontend / Build", icon: "🖥️", iconClass: "icon-blue",
+    n: "social-media-dashboard-builder",
+    d: "Builds a local HTML dashboard for scheduled social posts with calendar and list views",
+    u: "Tracking a social content schedule across platforms without a paid tool" },
 
   // ── File / Output ─────────────────────────────
   { cat: "File / Output", icon: "📄", iconClass: "icon-gray",
@@ -2109,6 +2130,9 @@ const SKILLS = [
   { cat: "PMM / Positioning", n: "linkedin-connection-request-writer",
     d: "Writes personalized sub-300-char connection notes that get accepted, with variants per situation",
     u: "Targeted connection requests and batch templates before outreach campaigns" },
+  { cat: "PMM / Positioning", n: "linkedin-profile-scraper",
+    d: "Scrapes a LinkedIn profile's posts via Apify and exports a clean CSV for analysis",
+    u: "Pulling post-level engagement data from any LinkedIn profile" },
 
   // ── Company-OS Blueprint (Agency) ───────────────
   { cat: "Agency / Client Playbooks", n: "audit-conductor",
