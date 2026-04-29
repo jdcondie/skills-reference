@@ -322,10 +322,12 @@ nav {
   vertical-align: top; line-height: 1.5;
 }
 .ops-table tr:last-child td { border-bottom: none; }
-.ops-table tr:hover td { background: var(--gray-50); }
+.ops-row { cursor: pointer; transition: background 0.15s; }
+.ops-row:hover td { background: var(--orange-light); }
+.ops-row:active td { background: rgba(232,84,26,0.18); }
 .ops-cmd {
   font-family: 'SF Mono', Monaco, monospace; font-size: 12px;
-  color: var(--orange); font-weight: 600; cursor: pointer;
+  color: var(--orange); font-weight: 600;
   white-space: nowrap;
 }
 .ops-cmd:hover { text-decoration: underline; }
@@ -753,20 +755,20 @@ footer p { font-size: 12px; color: #555; }
         <tr><th>Command</th><th>When</th><th>What it does</th><th>File</th></tr>
       </thead>
       <tbody>
-        <tr>
-          <td><span class="ops-cmd" onclick="copyOps('/local-folder-structure')">/local-folder-structure</span></td>
+        <tr class="ops-row" onclick="copyOps('/local-folder-structure')">
+          <td><span class="ops-cmd">/local-folder-structure</span></td>
           <td><span class="ops-cadence">One-time, run first</span></td>
           <td class="ops-desc">Creates client folder tree under <code>/00-Context/</code> (Templates, SOPs, daily-brief, 8 client sync folders)</td>
           <td><span class="ops-file">~/.claude/commands/local-folder-structure.md</span></td>
         </tr>
-        <tr>
-          <td><span class="ops-cmd" onclick="copyOps('/tier-1-shopify-meta-mcp-setup')">/tier-1-shopify-meta-mcp-setup</span></td>
+        <tr class="ops-row" onclick="copyOps('/tier-1-shopify-meta-mcp-setup')">
+          <td><span class="ops-cmd">/tier-1-shopify-meta-mcp-setup</span></td>
           <td><span class="ops-cadence">One-time, Tue AM</span></td>
           <td class="ops-desc">Audits MCP registry, installs or scaffolds read-only Shopify + Meta + Google Ads MCPs, pilots on Lavazza</td>
           <td><span class="ops-file">~/.claude/commands/tier-1-shopify-meta-mcp-setup.md</span></td>
         </tr>
-        <tr>
-          <td><span class="ops-cmd" onclick="copyOps('/creative-brief-template-build')">/creative-brief-template-build</span></td>
+        <tr class="ops-row" onclick="copyOps('/creative-brief-template-build')">
+          <td><span class="ops-cmd">/creative-brief-template-build</span></td>
           <td><span class="ops-cadence">Once, after MCP setup</span></td>
           <td class="ops-desc">Builds reusable 10-section creative brief <code>.docx</code> template via the <code>docx</code> skill</td>
           <td><span class="ops-file">~/.claude/commands/creative-brief-template-build.md</span></td>
@@ -785,38 +787,38 @@ footer p { font-size: 12px; color: #555; }
         <tr><th>Command</th><th>Cadence</th><th>What it does</th><th>File</th></tr>
       </thead>
       <tbody>
-        <tr>
-          <td><span class="ops-cmd" onclick="copyOps('/morning-brief')">/morning-brief</span></td>
+        <tr class="ops-row" onclick="copyOps('/morning-brief')">
+          <td><span class="ops-cmd">/morning-brief</span></td>
           <td><span class="ops-cadence">Daily 7am MT</span></td>
           <td class="ops-desc">Calendar prep + 5 emails needing response + Slack threads + yesterday's loose ends</td>
           <td><span class="ops-file">Cowork V1/slash-commands/morning-brief.md</span></td>
         </tr>
-        <tr>
-          <td><span class="ops-cmd" onclick="copyOps('/performance-insights')">/performance-insights</span></td>
+        <tr class="ops-row" onclick="copyOps('/performance-insights')">
+          <td><span class="ops-cmd">/performance-insights</span></td>
           <td><span class="ops-cadence">Biweekly Tue 8am</span></td>
           <td class="ops-desc">14-day vs prior-14 vs 90-day baseline diff, 3 wins / 3 issues, ranked actions</td>
           <td><span class="ops-file">Cowork V1/slash-commands/performance-insights.md</span></td>
         </tr>
-        <tr>
-          <td><span class="ops-cmd" onclick="copyOps('/klaviyo-weekly')">/klaviyo-weekly</span></td>
+        <tr class="ops-row" onclick="copyOps('/klaviyo-weekly')">
+          <td><span class="ops-cmd">/klaviyo-weekly</span></td>
           <td><span class="ops-cadence">Friday 9am MT</span></td>
           <td class="ops-desc">7-day flow + campaign performance per client, posts to Notion + Slack</td>
           <td><span class="ops-file">Cowork V1/slash-commands/klaviyo-weekly.md</span></td>
         </tr>
-        <tr>
-          <td><span class="ops-cmd" onclick="copyOps('/apollo-weekly-outreach')">/apollo-weekly-outreach</span></td>
+        <tr class="ops-row" onclick="copyOps('/apollo-weekly-outreach')">
+          <td><span class="ops-cmd">/apollo-weekly-outreach</span></td>
           <td><span class="ops-cadence">Sunday 6pm</span></td>
           <td class="ops-desc">Pulls 25 ICP-matched DTC leads, writes 3-touch sequences in Jay voice, queues in Apollo as draft</td>
           <td><span class="ops-file">Cowork V1/slash-commands/apollo-weekly-outreach.md</span></td>
         </tr>
-        <tr>
-          <td><span class="ops-cmd" onclick="copyOps('/granola-sop-pipeline')">/granola-sop-pipeline</span></td>
+        <tr class="ops-row" onclick="copyOps('/granola-sop-pipeline')">
+          <td><span class="ops-cmd">/granola-sop-pipeline</span></td>
           <td><span class="ops-cadence auto">Auto · tagged calls</span></td>
           <td class="ops-desc">Branches <code>daily-call-recap</code> to write SOP into Notion when call is tagged onboarding/offboarding/handoff</td>
           <td><span class="ops-file">Cowork V1/slash-commands/granola-sop-pipeline.md</span></td>
         </tr>
-        <tr>
-          <td><span class="ops-cmd" onclick="copyOps('/brenden-recap-trigger')">/brenden-recap-trigger</span></td>
+        <tr class="ops-row" onclick="copyOps('/brenden-recap-trigger')">
+          <td><span class="ops-cmd">/brenden-recap-trigger</span></td>
           <td><span class="ops-cadence auto">Auto · Brenden-only</span></td>
           <td class="ops-desc">DMs Jay a 3-bullet recap when Brenden takes a client call without him</td>
           <td><span class="ops-file">Cowork V1/slash-commands/brenden-recap-trigger.md</span></td>
@@ -835,20 +837,20 @@ footer p { font-size: 12px; color: #555; }
         <tr><th>Command</th><th>When</th><th>What it does</th><th>File</th></tr>
       </thead>
       <tbody>
-        <tr>
-          <td><span class="ops-cmd" onclick="copyOps('/creative-brief')">/creative-brief</span></td>
+        <tr class="ops-row" onclick="copyOps('/creative-brief')">
+          <td><span class="ops-cmd">/creative-brief</span></td>
           <td><span class="ops-cadence">After verbal direction</span></td>
           <td class="ops-desc">Fills brief template from Granola/notes, saves <code>.docx</code>, DMs Brenden</td>
           <td><span class="ops-file">Cowork V1/slash-commands/creative-brief.md</span></td>
         </tr>
-        <tr>
-          <td><span class="ops-cmd" onclick="copyOps('/chaos-to-checklist')">/chaos-to-checklist</span></td>
+        <tr class="ops-row" onclick="copyOps('/chaos-to-checklist')">
+          <td><span class="ops-cmd">/chaos-to-checklist</span></td>
           <td><span class="ops-cadence">Onboarding/handoff calls</span></td>
           <td class="ops-desc">Turns transcript into numbered SOP <code>.md</code> with "next time" notes</td>
           <td><span class="ops-file">Cowork V1/slash-commands/chaos-to-checklist.md</span></td>
         </tr>
-        <tr>
-          <td><span class="ops-cmd" onclick="copyOps('/spreadsheet-cleanup')">/spreadsheet-cleanup</span></td>
+        <tr class="ops-row" onclick="copyOps('/spreadsheet-cleanup')">
+          <td><span class="ops-cmd">/spreadsheet-cleanup</span></td>
           <td><span class="ops-cadence">Once, then archive</span></td>
           <td class="ops-desc">Deletes 2 dupe rows, updates 2 status cells in ROI tracker</td>
           <td><span class="ops-file">Cowork V1/slash-commands/spreadsheet-cleanup.md</span></td>
