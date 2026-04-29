@@ -287,6 +287,59 @@ nav {
   flex-wrap: wrap; gap: 16px;
 }
 
+/* ── OPS STACK ─────────────────────────────────── */
+.ops-stack-block {
+  background: var(--white);
+  border: 1px solid var(--gray-300);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+.ops-stack-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 18px 24px; background: var(--gray-50);
+  border-bottom: 1px solid var(--gray-300);
+}
+.ops-stack-title {
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--black);
+}
+.ops-stack-pill {
+  font-size: 11px; font-weight: 700; padding: 4px 10px;
+  border-radius: 100px; text-transform: uppercase; letter-spacing: 0.05em;
+}
+.ops-stack-pill.cc { background: rgba(232,84,26,0.12); color: var(--orange); }
+.ops-stack-pill.cw { background: rgba(0,0,0,0.06); color: var(--black); }
+.ops-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.ops-table th {
+  text-align: left; font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--gray-500);
+  padding: 12px 24px; background: var(--white);
+  border-bottom: 1px solid var(--gray-300);
+}
+.ops-table td {
+  padding: 14px 24px; border-bottom: 1px solid var(--gray-200);
+  vertical-align: top; line-height: 1.5;
+}
+.ops-table tr:last-child td { border-bottom: none; }
+.ops-table tr:hover td { background: var(--gray-50); }
+.ops-cmd {
+  font-family: 'SF Mono', Monaco, monospace; font-size: 12px;
+  color: var(--orange); font-weight: 600; cursor: pointer;
+  white-space: nowrap;
+}
+.ops-cmd:hover { text-decoration: underline; }
+.ops-cadence {
+  font-size: 11px; font-weight: 600; color: var(--gray-700);
+  white-space: nowrap;
+}
+.ops-cadence.auto { color: var(--orange); }
+.ops-desc { color: var(--gray-700); }
+.ops-file {
+  font-family: 'SF Mono', Monaco, monospace; font-size: 11px;
+  color: var(--gray-500);
+}
+
 /* ── FILTER PILLS ──────────────────────────────── */
 .filter-row { display: flex; gap: 8px; flex-wrap: wrap; }
 .filter-pill {
@@ -611,6 +664,7 @@ footer p { font-size: 12px; color: #555; }
   <div class="nav-right">
     <div class="nav-jumps">
       <a class="nav-jump" href="#playbooksSection">Playbooks</a>
+      <a class="nav-jump" href="#opsStackSection">Ops Stack</a>
       <a class="nav-jump" href="#skillsSection">Skills</a>
     </div>
     <div class="skill-count" id="skillCount"></div>
@@ -677,6 +731,131 @@ footer p { font-size: 12px; color: #555; }
   </div>
 
   <div class="card-grid" id="playbookGrid" style="grid-template-columns: repeat(3, 1fr);"></div>
+</div>
+
+<!-- OPS STACK SECTION -->
+<div class="section-wrap" id="opsStackSection">
+  <div class="section-header-row">
+    <div>
+      <div class="section-label">Ops Stack</div>
+      <div class="section-title">Cowork + Claude Code automations</div>
+      <div class="section-sub">12 commands powering the Matix Labs / Jay Condie Media ops loop. Click any slash command to copy it.</div>
+    </div>
+  </div>
+
+  <div class="ops-stack-block">
+    <div class="ops-stack-header">
+      <div class="ops-stack-title">Claude Code — One-Time Setup</div>
+      <span class="ops-stack-pill cc">CLI</span>
+    </div>
+    <table class="ops-table">
+      <thead>
+        <tr><th>Command</th><th>When</th><th>What it does</th><th>File</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="ops-cmd" onclick="copyOps('/local-folder-structure')">/local-folder-structure</span></td>
+          <td><span class="ops-cadence">One-time, run first</span></td>
+          <td class="ops-desc">Creates client folder tree under <code>/00-Context/</code> (Templates, SOPs, daily-brief, 8 client sync folders)</td>
+          <td><span class="ops-file">~/.claude/commands/local-folder-structure.md</span></td>
+        </tr>
+        <tr>
+          <td><span class="ops-cmd" onclick="copyOps('/tier-1-shopify-meta-mcp-setup')">/tier-1-shopify-meta-mcp-setup</span></td>
+          <td><span class="ops-cadence">One-time, Tue AM</span></td>
+          <td class="ops-desc">Audits MCP registry, installs or scaffolds read-only Shopify + Meta + Google Ads MCPs, pilots on Lavazza</td>
+          <td><span class="ops-file">~/.claude/commands/tier-1-shopify-meta-mcp-setup.md</span></td>
+        </tr>
+        <tr>
+          <td><span class="ops-cmd" onclick="copyOps('/creative-brief-template-build')">/creative-brief-template-build</span></td>
+          <td><span class="ops-cadence">Once, after MCP setup</span></td>
+          <td class="ops-desc">Builds reusable 10-section creative brief <code>.docx</code> template via the <code>docx</code> skill</td>
+          <td><span class="ops-file">~/.claude/commands/creative-brief-template-build.md</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ops-stack-block">
+    <div class="ops-stack-header">
+      <div class="ops-stack-title">Cowork — Scheduled &amp; Auto-Triggered</div>
+      <span class="ops-stack-pill cw">Cowork</span>
+    </div>
+    <table class="ops-table">
+      <thead>
+        <tr><th>Command</th><th>Cadence</th><th>What it does</th><th>File</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="ops-cmd" onclick="copyOps('/morning-brief')">/morning-brief</span></td>
+          <td><span class="ops-cadence">Daily 7am MT</span></td>
+          <td class="ops-desc">Calendar prep + 5 emails needing response + Slack threads + yesterday's loose ends</td>
+          <td><span class="ops-file">Cowork V1/slash-commands/morning-brief.md</span></td>
+        </tr>
+        <tr>
+          <td><span class="ops-cmd" onclick="copyOps('/performance-insights')">/performance-insights</span></td>
+          <td><span class="ops-cadence">Biweekly Tue 8am</span></td>
+          <td class="ops-desc">14-day vs prior-14 vs 90-day baseline diff, 3 wins / 3 issues, ranked actions</td>
+          <td><span class="ops-file">Cowork V1/slash-commands/performance-insights.md</span></td>
+        </tr>
+        <tr>
+          <td><span class="ops-cmd" onclick="copyOps('/klaviyo-weekly')">/klaviyo-weekly</span></td>
+          <td><span class="ops-cadence">Friday 9am MT</span></td>
+          <td class="ops-desc">7-day flow + campaign performance per client, posts to Notion + Slack</td>
+          <td><span class="ops-file">Cowork V1/slash-commands/klaviyo-weekly.md</span></td>
+        </tr>
+        <tr>
+          <td><span class="ops-cmd" onclick="copyOps('/apollo-weekly-outreach')">/apollo-weekly-outreach</span></td>
+          <td><span class="ops-cadence">Sunday 6pm</span></td>
+          <td class="ops-desc">Pulls 25 ICP-matched DTC leads, writes 3-touch sequences in Jay voice, queues in Apollo as draft</td>
+          <td><span class="ops-file">Cowork V1/slash-commands/apollo-weekly-outreach.md</span></td>
+        </tr>
+        <tr>
+          <td><span class="ops-cmd" onclick="copyOps('/granola-sop-pipeline')">/granola-sop-pipeline</span></td>
+          <td><span class="ops-cadence auto">Auto · tagged calls</span></td>
+          <td class="ops-desc">Branches <code>daily-call-recap</code> to write SOP into Notion when call is tagged onboarding/offboarding/handoff</td>
+          <td><span class="ops-file">Cowork V1/slash-commands/granola-sop-pipeline.md</span></td>
+        </tr>
+        <tr>
+          <td><span class="ops-cmd" onclick="copyOps('/brenden-recap-trigger')">/brenden-recap-trigger</span></td>
+          <td><span class="ops-cadence auto">Auto · Brenden-only</span></td>
+          <td class="ops-desc">DMs Jay a 3-bullet recap when Brenden takes a client call without him</td>
+          <td><span class="ops-file">Cowork V1/slash-commands/brenden-recap-trigger.md</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ops-stack-block">
+    <div class="ops-stack-header">
+      <div class="ops-stack-title">Cowork — Manual Triggers</div>
+      <span class="ops-stack-pill cw">Cowork</span>
+    </div>
+    <table class="ops-table">
+      <thead>
+        <tr><th>Command</th><th>When</th><th>What it does</th><th>File</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="ops-cmd" onclick="copyOps('/creative-brief')">/creative-brief</span></td>
+          <td><span class="ops-cadence">After verbal direction</span></td>
+          <td class="ops-desc">Fills brief template from Granola/notes, saves <code>.docx</code>, DMs Brenden</td>
+          <td><span class="ops-file">Cowork V1/slash-commands/creative-brief.md</span></td>
+        </tr>
+        <tr>
+          <td><span class="ops-cmd" onclick="copyOps('/chaos-to-checklist')">/chaos-to-checklist</span></td>
+          <td><span class="ops-cadence">Onboarding/handoff calls</span></td>
+          <td class="ops-desc">Turns transcript into numbered SOP <code>.md</code> with "next time" notes</td>
+          <td><span class="ops-file">Cowork V1/slash-commands/chaos-to-checklist.md</span></td>
+        </tr>
+        <tr>
+          <td><span class="ops-cmd" onclick="copyOps('/spreadsheet-cleanup')">/spreadsheet-cleanup</span></td>
+          <td><span class="ops-cadence">Once, then archive</span></td>
+          <td class="ops-desc">Deletes 2 dupe rows, updates 2 status cells in ROI tracker</td>
+          <td><span class="ops-file">Cowork V1/slash-commands/spreadsheet-cleanup.md</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <!-- WIRING STRIP -->
@@ -2585,6 +2764,22 @@ document.addEventListener('click', e => {
   }
 });
 
+function copyOps(cmd) {
+  const toast = document.getElementById('toast');
+  const toastText = document.getElementById('toastText');
+  const onCopied = () => {
+    toastText.textContent = `Copied ${cmd}`;
+    toast.classList.add('show');
+    clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => toast.classList.remove('show'), 2200);
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(cmd).then(onCopied).catch(() => fallback(cmd, onCopied));
+  } else {
+    fallback(cmd, onCopied);
+  }
+}
+
 function fallback(text, cb) {
   const ta = document.createElement('textarea');
   ta.value = text;
@@ -2952,7 +3147,8 @@ renderFavorites();
 const jumpLinks = document.querySelectorAll('.nav-jump');
 const sections = [
   { el: document.getElementById('playbooksSection'), link: jumpLinks[0] },
-  { el: document.getElementById('skillsSection'), link: jumpLinks[1] },
+  { el: document.getElementById('opsStackSection'), link: jumpLinks[1] },
+  { el: document.getElementById('skillsSection'), link: jumpLinks[2] },
 ];
 
 function updateActiveJump() {
