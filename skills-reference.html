@@ -398,6 +398,8 @@ nav {
   box-shadow: 0 8px 32px rgba(0,0,0,0.08);
   transform: translateY(-2px);
 }
+#cardGrid .card { cursor: pointer; }
+#cardGrid .card.copied { border-color: var(--green); box-shadow: 0 0 0 2px rgba(22,163,74,0.15); }
 
 /* ── Category border colors ─────────────────────── */
 .card[data-cat="Agency / Client Playbooks"]  { border-left-color: var(--green); }
@@ -2738,7 +2740,8 @@ document.addEventListener('keydown', e => {
 let toastTimeout;
 
 document.addEventListener('click', e => {
-  const btn = e.target.closest('.skill-name-btn');
+  const card = e.target.closest('#cardGrid .card');
+  const btn = card ? card.querySelector('.skill-name-btn') : e.target.closest('.skill-name-btn');
   if (!btn) return;
 
   const skillName = btn.dataset.skill;
