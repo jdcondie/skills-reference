@@ -743,7 +743,7 @@ footer p { font-size: 12px; color: #555; }
     <div>
       <div class="section-label">Ops Stack</div>
       <div class="section-title">Cowork + Claude Code automations</div>
-      <div class="section-sub">12 commands powering the Matix Labs / Jay Condie Media ops loop. Click any slash command to copy it.</div>
+      <div class="section-sub">26 commands + 1 scheduled task powering the Matix Labs / Jay Condie Media ops loop. Click any slash command to copy it.</div>
     </div>
   </div>
 
@@ -856,6 +856,118 @@ footer p { font-size: 12px; color: #555; }
           <td><span class="ops-cadence">Once, then archive</span></td>
           <td class="ops-desc">Deletes 2 dupe rows, updates 2 status cells in ROI tracker</td>
           <td><span class="ops-file">Cowork V1/slash-commands/spreadsheet-cleanup.md</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ops-stack-block">
+    <div class="ops-stack-header">
+      <div class="ops-stack-title">Claude Code — Manual Commands</div>
+      <span class="ops-stack-pill cc">CLI</span>
+    </div>
+    <table class="ops-table">
+      <thead>
+        <tr><th>Command</th><th>When</th><th>What it does</th><th>File</th></tr>
+      </thead>
+      <tbody>
+        <tr class="ops-row" onclick="copyOps('/sentence-editor')">
+          <td><span class="ops-cmd">/sentence-editor</span></td>
+          <td><span class="ops-cadence">On demand</span></td>
+          <td class="ops-desc">Edits writing using 8 sentence principles for sharper, tighter prose</td>
+          <td><span class="ops-file">~/.claude/commands/sentence-editor.md</span></td>
+        </tr>
+        <tr class="ops-row" onclick="copyOps('/Brainstorm A 30-Day Content Series')">
+          <td><span class="ops-cmd">/Brainstorm A 30-Day Content Series</span></td>
+          <td><span class="ops-cadence">On demand</span></td>
+          <td class="ops-desc">Brainstorms a structured 30-day daily content series</td>
+          <td><span class="ops-file">~/.claude/commands/Brainstorm A 30-Day Content Series.md</span></td>
+        </tr>
+        <tr class="ops-row" onclick="copyOps('/Brainstorm A Curation Lead Magnet')">
+          <td><span class="ops-cmd">/Brainstorm A Curation Lead Magnet</span></td>
+          <td><span class="ops-cadence">On demand</span></td>
+          <td class="ops-desc">10 curation-based lead magnet ideas that organize existing tools/resources</td>
+          <td><span class="ops-file">~/.claude/commands/Brainstorm A Curation Lead Magnet.md</span></td>
+        </tr>
+        <tr class="ops-row" onclick="copyOps('/Brainstorm AI-Powered Lead Magnet Ideas')">
+          <td><span class="ops-cmd">/Brainstorm AI-Powered Lead Magnet Ideas</span></td>
+          <td><span class="ops-cadence">On demand</span></td>
+          <td class="ops-desc">Unbundles a paid offer into a free AI-powered lead magnet</td>
+          <td><span class="ops-file">~/.claude/commands/Brainstorm AI-Powered Lead Magnet Ideas.md</span></td>
+        </tr>
+        <tr class="ops-row" onclick="copyOps('/Brainstorm Hyper-Relevant Lead Magnet Ideas')">
+          <td><span class="ops-cmd">/Brainstorm Hyper-Relevant Lead Magnet Ideas</span></td>
+          <td><span class="ops-cadence">On demand</span></td>
+          <td class="ops-desc">Lead magnet ideas tied to a specific piece of content (post, newsletter, transcript)</td>
+          <td><span class="ops-file">~/.claude/commands/Brainstorm Hyper-Relevant Lead Magnet Ideas.md</span></td>
+        </tr>
+        <tr class="ops-row" onclick="copyOps('/Brainstorm Lead Magnet Collaboration Ideas')">
+          <td><span class="ops-cmd">/Brainstorm Lead Magnet Collaboration Ideas</span></td>
+          <td><span class="ops-cadence">On demand</span></td>
+          <td class="ops-desc">Collab lead magnet ideas leveraging two creators' audiences</td>
+          <td><span class="ops-file">~/.claude/commands/Brainstorm Lead Magnet Collaboration Ideas.md</span></td>
+        </tr>
+        <tr class="ops-row" onclick="copyOps('/Brainstorm Money-Making Lead Magnet Ideas')">
+          <td><span class="ops-cmd">/Brainstorm Money-Making Lead Magnet Ideas</span></td>
+          <td><span class="ops-cadence">On demand</span></td>
+          <td class="ops-desc">Lead magnets that lead to sales, not just signups</td>
+          <td><span class="ops-file">~/.claude/commands/Brainstorm Money-Making Lead Magnet Ideas.md</span></td>
+        </tr>
+        <tr class="ops-row" onclick="copyOps('/Analyze My Content And Brainstorm 10 Lead Magnet Ideas')">
+          <td><span class="ops-cmd">/Analyze My Content And Brainstorm 10 Lead Magnet Ideas</span></td>
+          <td><span class="ops-cadence">On demand</span></td>
+          <td class="ops-desc">Analyzes 90 days of content for patterns, then proposes 10 lead magnets</td>
+          <td><span class="ops-file">~/.claude/commands/Analyze My Content And Brainstorm 10 Lead Magnet Ideas.md</span></td>
+        </tr>
+        <tr class="ops-row" onclick="copyOps('/Create The LinkedIn Post For A Viral Giveaway Lead Magnet')">
+          <td><span class="ops-cmd">/Create The LinkedIn Post For A Viral Giveaway Lead Magnet</span></td>
+          <td><span class="ops-cadence">On demand</span></td>
+          <td class="ops-desc">Writes a 6-element viral giveaway LinkedIn post for a lead magnet drop</td>
+          <td><span class="ops-file">~/.claude/commands/Create The LinkedIn Post For A Viral Giveaway Lead Magnet.md</span></td>
+        </tr>
+        <tr class="ops-row" onclick="copyOps('/Generate An Email Course Value Proposition')">
+          <td><span class="ops-cmd">/Generate An Email Course Value Proposition</span></td>
+          <td><span class="ops-cadence">On demand</span></td>
+          <td class="ops-desc">Brainstorms the value prop for a free email course lead magnet</td>
+          <td><span class="ops-file">~/.claude/commands/Generate An Email Course Value Proposition.md</span></td>
+        </tr>
+        <tr class="ops-row" onclick="copyOps('/Generate Lead Magnet Names')">
+          <td><span class="ops-cmd">/Generate Lead Magnet Names</span></td>
+          <td><span class="ops-cadence">On demand</span></td>
+          <td class="ops-desc">10-15 specific, outcome-driven lead magnet names</td>
+          <td><span class="ops-file">~/.claude/commands/Generate Lead Magnet Names.md</span></td>
+        </tr>
+        <tr class="ops-row" onclick="copyOps('/Generate Mockup Images For A Lead Magnet Landing Page')">
+          <td><span class="ops-cmd">/Generate Mockup Images For A Lead Magnet Landing Page</span></td>
+          <td><span class="ops-cadence">On demand</span></td>
+          <td class="ops-desc">Mockup image prompts for lead magnet landing pages</td>
+          <td><span class="ops-file">~/.claude/commands/Generate Mockup Images For A Lead Magnet Landing Page.md</span></td>
+        </tr>
+        <tr class="ops-row" onclick="copyOps('/Turn ChatGPT Into Copywriting Legend Gary Halbert')">
+          <td><span class="ops-cmd">/Turn ChatGPT Into Copywriting Legend Gary Halbert</span></td>
+          <td><span class="ops-cadence">On demand</span></td>
+          <td class="ops-desc">Channels Halbert direct-response voice for any copy task</td>
+          <td><span class="ops-file">~/.claude/commands/Turn ChatGPT Into Copywriting Legend Gary Halbert.md</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ops-stack-block">
+    <div class="ops-stack-header">
+      <div class="ops-stack-title">Personal — Scheduled</div>
+      <span class="ops-stack-pill cw">Scheduled</span>
+    </div>
+    <table class="ops-table">
+      <thead>
+        <tr><th>Task</th><th>Cadence</th><th>What it does</th><th>File</th></tr>
+      </thead>
+      <tbody>
+        <tr class="ops-row" onclick="copyOps('~/.claude/scheduled-tasks/limitless-notion-push-reminder/SKILL.md')">
+          <td><span class="ops-cmd">limitless-notion-push-reminder</span></td>
+          <td><span class="ops-cadence auto">Monthly reminder</span></td>
+          <td class="ops-desc">Reminds Jay to export Limitless data and push to Notion via <code>push_lifelog_to_notion.py</code></td>
+          <td><span class="ops-file">~/.claude/scheduled-tasks/limitless-notion-push-reminder/SKILL.md</span></td>
         </tr>
       </tbody>
     </table>
@@ -2176,6 +2288,10 @@ const SKILLS = [
     n: "radical-clarity",
     d: "Guided journaling using David Bayer's 3-Step Miracle Formula with somatic awareness",
     u: "Getting unstuck through embodied decision-making" },
+  { cat: "Thinking / Clarity", icon: "🧠", iconClass: "icon-indigo",
+    n: "operationalize",
+    d: "Breaks vague traits, labels, or goals into camera-visible actions a 5-year-old could verify",
+    u: "Turning fuzzy commands like 'be charismatic' or 'follow up better' into observable behaviors" },
 
   // ── Personal / Growth ─────────────────────────
   { cat: "Personal / Growth", icon: "⭐", iconClass: "icon-purple",
