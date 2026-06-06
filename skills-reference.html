@@ -777,9 +777,9 @@ footer p { font-size: 12px; color: #555; }
   </div>
   <div class="nav-right">
     <div class="nav-jumps">
-      <a class="nav-jump" href="#playbooksSection">Playbooks</a>
-      <a class="nav-jump" href="#opsStackSection">Ops Stack</a>
       <a class="nav-jump" href="#skillsSection">Skills</a>
+      <a class="nav-jump" href="#opsStackSection">Ops Stack</a>
+      <a class="nav-jump" href="#playbooksSection">Playbooks</a>
     </div>
     <div class="skill-count" id="skillCount"></div>
   </div>
@@ -817,34 +817,46 @@ footer p { font-size: 12px; color: #555; }
   <div class="favorites-label"><span>★</span> Frequently Used</div>
   <div class="favorites-row" id="favoritesRow"></div>
 </div>
+<!-- WIRING STRIP -->
+<div class="wiring-strip">
+  <div class="wiring-label">Categories</div>
+  <div class="wiring-tags" id="wiringTags"></div>
+</div>
 
-<!-- PLAYBOOKS SECTION -->
-<div class="section-wrap" id="playbooksSection">
+<!-- MAIN SECTION -->
+<div class="section-wrap" id="skillsSection">
   <div class="section-header-row">
     <div>
-      <div class="section-label">Sequential Playbooks</div>
-      <div class="section-title">31 playbooks. Chained workflows.</div>
-      <div class="section-sub">Click any playbook to copy the full prompt chain to your clipboard.</div>
+      <div class="section-label" id="sectionLabel">All Skills</div>
+      <div class="section-title" id="sectionTitle">Your full skill library</div>
+      <div class="section-sub">Click any skill name to copy the slash command. Use the filters below to browse by category.</div>
+    </div>
+    <div class="view-toggle" id="viewToggle">
+      <button class="view-btn active" data-view="grid" title="Grid view">▦ Grid</button>
+      <button class="view-btn" data-view="list" title="List view">☰ List</button>
     </div>
   </div>
 
-  <div class="filter-block" style="margin-bottom: 24px;">
+  <!-- FILTER PILLS -->
+  <div class="filter-block">
     <div>
-      <div class="filter-group-label">Type</div>
-      <div class="filter-row" id="pbTypeRow">
-        <button type="button" class="filter-pill active" onclick="filterPlaybooks('all', this)">All</button>
-        <button type="button" class="filter-pill" onclick="filterPlaybooks('agency', this)">Agency</button>
-        <button type="button" class="filter-pill" onclick="filterPlaybooks('universal', this)">Universal</button>
-        <button type="button" class="filter-pill" onclick="filterPlaybooks('specialist', this)">Specialist</button>
-      </div>
+      <div class="filter-group-label">Category</div>
+      <div class="filter-row" id="filterRow"></div>
     </div>
     <div>
       <div class="filter-group-label">Topic</div>
-      <div class="filter-row" id="pbTagRow"></div>
+      <div class="filter-row" id="topicRow"></div>
     </div>
   </div>
 
-  <div class="card-grid" id="playbookGrid" style="grid-template-columns: repeat(3, 1fr);"></div>
+  <!-- CARD GRID -->
+  <div class="card-grid" id="cardGrid"></div>
+
+  <!-- EMPTY STATE -->
+  <div class="empty-state" id="emptyState">
+    <h3>No skills found</h3>
+    <p>Try a different search term or clear the filter.</p>
+  </div>
 </div>
 
 <!-- OPS STACK SECTION -->
@@ -1084,46 +1096,34 @@ footer p { font-size: 12px; color: #555; }
   </div>
 </div>
 
-<!-- WIRING STRIP -->
-<div class="wiring-strip">
-  <div class="wiring-label">Categories</div>
-  <div class="wiring-tags" id="wiringTags"></div>
-</div>
 
-<!-- MAIN SECTION -->
-<div class="section-wrap" id="skillsSection">
+<!-- PLAYBOOKS SECTION -->
+<div class="section-wrap" id="playbooksSection">
   <div class="section-header-row">
     <div>
-      <div class="section-label" id="sectionLabel">All Skills</div>
-      <div class="section-title" id="sectionTitle">Your full skill library</div>
-      <div class="section-sub">Click any skill name to copy the slash command. Use the filters below to browse by category.</div>
-    </div>
-    <div class="view-toggle" id="viewToggle">
-      <button class="view-btn active" data-view="grid" title="Grid view">▦ Grid</button>
-      <button class="view-btn" data-view="list" title="List view">☰ List</button>
+      <div class="section-label">Sequential Playbooks</div>
+      <div class="section-title">31 playbooks. Chained workflows.</div>
+      <div class="section-sub">Click any playbook to copy the full prompt chain to your clipboard.</div>
     </div>
   </div>
 
-  <!-- FILTER PILLS -->
-  <div class="filter-block">
+  <div class="filter-block" style="margin-bottom: 24px;">
     <div>
-      <div class="filter-group-label">Category</div>
-      <div class="filter-row" id="filterRow"></div>
+      <div class="filter-group-label">Type</div>
+      <div class="filter-row" id="pbTypeRow">
+        <button type="button" class="filter-pill active" onclick="filterPlaybooks('all', this)">All</button>
+        <button type="button" class="filter-pill" onclick="filterPlaybooks('agency', this)">Agency</button>
+        <button type="button" class="filter-pill" onclick="filterPlaybooks('universal', this)">Universal</button>
+        <button type="button" class="filter-pill" onclick="filterPlaybooks('specialist', this)">Specialist</button>
+      </div>
     </div>
     <div>
       <div class="filter-group-label">Topic</div>
-      <div class="filter-row" id="topicRow"></div>
+      <div class="filter-row" id="pbTagRow"></div>
     </div>
   </div>
 
-  <!-- CARD GRID -->
-  <div class="card-grid" id="cardGrid"></div>
-
-  <!-- EMPTY STATE -->
-  <div class="empty-state" id="emptyState">
-    <h3>No skills found</h3>
-    <p>Try a different search term or clear the filter.</p>
-  </div>
+  <div class="card-grid" id="playbookGrid" style="grid-template-columns: repeat(3, 1fr);"></div>
 </div>
 
 <!-- ORANGE BREAK -->
@@ -3751,9 +3751,9 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(
 // ── Active nav jump highlight on scroll ──────────
 const jumpLinks = document.querySelectorAll('.nav-jump');
 const sections = [
-  { el: document.getElementById('playbooksSection'), link: jumpLinks[0] },
+  { el: document.getElementById('skillsSection'), link: jumpLinks[0] },
   { el: document.getElementById('opsStackSection'), link: jumpLinks[1] },
-  { el: document.getElementById('skillsSection'), link: jumpLinks[2] },
+  { el: document.getElementById('playbooksSection'), link: jumpLinks[2] },
 ];
 
 function updateActiveJump() {
