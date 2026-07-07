@@ -694,6 +694,56 @@ nav {
   font-weight: 600; transition: color 0.15s;
 }
 
+/* ── Pack card ─────────────────────────────────── */
+.pack-card {
+  display: flex; flex-direction: column;
+  opacity: 1 !important; animation: none !important;
+}
+.pack-card:hover { border-color: var(--gray-300); }
+.pack-header {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 8px;
+}
+.pack-badge {
+  font-size: 9px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; padding: 2px 7px; border-radius: 4px;
+}
+.pack-price {
+  margin-left: auto; font-size: 12px; font-weight: 800; color: var(--gray-700);
+}
+.pack-name {
+  font-size: 19px; font-weight: 800; color: var(--black);
+  line-height: 1.2; margin-bottom: 6px; letter-spacing: -0.02em;
+}
+.pack-desc {
+  font-size: 12.5px; color: var(--gray-500); line-height: 1.5; margin-bottom: 12px;
+}
+.pack-router-btn {
+  align-self: flex-start;
+  font-family: 'SF Mono','Fira Code','Menlo','Consolas', monospace;
+  font-size: 12px; font-weight: 700;
+  background: var(--orange-light); color: var(--orange);
+  border: 1px solid var(--orange); border-radius: 6px;
+  padding: 4px 10px; margin-bottom: 12px; cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.pack-router-btn:hover { background: var(--orange); color: var(--white); }
+.pack-skills-label {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.06em; color: var(--gray-500);
+  border-top: 1px solid var(--gray-100); padding-top: 10px; margin-bottom: 8px;
+}
+.pack-skills {
+  display: flex; flex-wrap: wrap; gap: 5px; margin-top: auto;
+}
+.pack-chip {
+  font-family: 'SF Mono','Fira Code','Menlo','Consolas', monospace;
+  font-size: 10px; color: var(--gray-700);
+  background: var(--gray-50); border: 1px solid var(--gray-100);
+  border-radius: 5px; padding: 3px 7px; cursor: pointer;
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
+}
+.pack-chip:hover { background: var(--orange-light); border-color: var(--orange); color: var(--orange); }
+
 /* ── ORANGE BREAK ──────────────────────────────── */
 .orange-section {
   background: var(--orange); padding: 60px 48px; text-align: center;
@@ -749,6 +799,7 @@ footer p { font-size: 12px; color: #555; }
 @media (max-width: 960px) {
   .card-grid { grid-template-columns: repeat(3, 1fr); }
   #playbookGrid { grid-template-columns: repeat(2, 1fr) !important; }
+  #packGrid { grid-template-columns: repeat(2, 1fr) !important; }
   nav { padding: 0 24px; }
   .section-wrap { padding: 40px 24px; }
   .wiring-strip { padding: 14px 24px; }
@@ -758,6 +809,7 @@ footer p { font-size: 12px; color: #555; }
 @media (max-width: 600px) {
   .card-grid { grid-template-columns: repeat(2, 1fr); }
   #playbookGrid { grid-template-columns: 1fr !important; }
+  #packGrid { grid-template-columns: 1fr !important; }
   .stats-bar { grid-template-columns: repeat(2, 1fr); }
   nav { padding: 0 16px; }
   .nav-search { display: none; }
@@ -778,6 +830,7 @@ footer p { font-size: 12px; color: #555; }
   <div class="nav-right">
     <div class="nav-jumps">
       <a class="nav-jump" href="#skillsSection">Skills</a>
+      <a class="nav-jump" href="#packsSection">Packs</a>
       <a class="nav-jump" href="#opsStackSection">Ops Stack</a>
       <a class="nav-jump" href="#playbooksSection">Playbooks</a>
     </div>
@@ -807,8 +860,8 @@ footer p { font-size: 12px; color: #555; }
     <div class="stat-label">Client Playbooks</div>
   </div>
   <div class="stat-item">
-    <div class="stat-val">1<span>click</span></div>
-    <div class="stat-label">Copy to Clipboard</div>
+    <div class="stat-val" id="statPacks"></div>
+    <div class="stat-label">Skill Packs</div>
   </div>
 </div>
 
@@ -857,6 +910,32 @@ footer p { font-size: 12px; color: #555; }
     <h3>No skills found</h3>
     <p>Try a different search term or clear the filter.</p>
   </div>
+</div>
+
+<!-- PACKS SECTION -->
+<div class="section-wrap" id="packsSection">
+  <div class="section-header-row">
+    <div>
+      <div class="section-label">Skill Packs</div>
+      <div class="section-title" id="packsTitle">Packs. Skills bundled into routers.</div>
+      <div class="section-sub">Click a router (like <code>/cro</code>) to copy it, or click any skill chip to copy that command.</div>
+    </div>
+  </div>
+
+  <div class="filter-block" style="margin-bottom: 24px;">
+    <div>
+      <div class="filter-group-label">Type</div>
+      <div class="filter-row" id="packTypeRow">
+        <button type="button" class="filter-pill active" onclick="filterPacks('all', this)">All</button>
+        <button type="button" class="filter-pill" onclick="filterPacks('growth', this)">Growth &amp; Ads</button>
+        <button type="button" class="filter-pill" onclick="filterPacks('content', this)">Content &amp; Brand</button>
+        <button type="button" class="filter-pill" onclick="filterPacks('products', this)">Products &amp; Launch</button>
+        <button type="button" class="filter-pill" onclick="filterPacks('operator', this)">Operator &amp; Systems</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-grid" id="packGrid" style="grid-template-columns: repeat(3, 1fr);"></div>
 </div>
 
 <!-- OPS STACK SECTION -->
@@ -3573,6 +3652,94 @@ Object.entries(pbTagCounts)
   .forEach(([tag, count]) => {
     makePbTagPill(PB_TOPIC_LABELS[tag] || tag, tag, count, false);
   });
+
+// ── Packs ─────────────────────────────────────────
+const PACKS = [
+  // ── Growth & Ads ──
+  { name: "CRO Pack", router: "cro", type: "growth", price: "$97",
+    desc: "Diagnose, audit, and rewrite pages that leak conversions.",
+    skills: ["5-second-cro","ab-test-result-interpreter","ai-powered-cro-analysis","competitor-conversion-teardown","conversion-drop-diagnostics","cro-audit","cro-opportunities-memo","cro-site-audit","funnel-leak-detection","hypothesis-generator","landing-page-auditor","landing-page-rewrite","mobile-friction-diagnostic","pdp-teardown","test-prioritization-matrix"] },
+
+  // ── Content & Brand ──
+  { name: "Writing Core Pack", router: "write", type: "content", price: "$97",
+    desc: "Direct-response fundamentals: research, hooks, sales letters, and long-form.",
+    skills: ["audience-research","copy-strategy-foundation","hook-generator","sales-letter-writer","sales-letter-reverse-engineer","legendary-letter-prompts","gary-halbert-audit","content-research-writer"] },
+  { name: "YouTube Creator Pack", router: "youtube", type: "content", price: "$97",
+    desc: "Scripts, titles, thumbnails, and video strategy for YouTube.",
+    skills: ["hook-writer","pb15-video-script-system","scriptwriting-engine","thumbnail-prompt-builder","title-lab","video-prompt-enhancer","video-strategy-mapper"] },
+
+  // ── Products & Launch ──
+  { name: "Productized Deliverables Pack", router: "deliver", type: "products", price: "$297",
+    desc: "Seven ready-to-sell agency deliverables you can run for clients.",
+    skills: ["creative-strategist","google-ads-audit","dtc-second-brain","meta-bulk-uploader","influencer-outreach","advertorial-generator","ai-video-search"] },
+
+  // ── Operator & Systems ──
+  { name: "Operator Pack", router: "organize", type: "operator", price: "$97",
+    desc: "Productivity, mindset, and communication — the full operator system.",
+    skills: ["decision-making-gym","radical-clarity","mental-performance","stack-your-wins","second-brain","productivity-ops","organize-machine","file-organizer","folder-architect","gtd-file-sorter","screenshot-scanner","weekly-review","morning-ops-briefing","the-rewrite-layout","newsletter-engine","speech-writer","speech-coach","conversation-analyst"] },
+  { name: "Skill Builder Pack", router: "build", type: "operator", price: "$97",
+    desc: "Build, extract, and improve your own Claude skills and MCP tools.",
+    skills: ["claude-managed-agents","course-to-skills","file-organizer","prompt-master","setting-up-mcps","skill-auto-improve","skill-opportunity-mapper","skillcreator-extract-workshop","skillcreator-interview-workshop","write-course-with-ai"] },
+];
+
+const packTypeColors = { growth: "var(--orange)", content: "var(--blue)", products: "var(--green)", operator: "var(--yellow)" };
+const packTypeBgs = { growth: "var(--orange-light)", content: "var(--blue-bg)", products: "var(--green-bg)", operator: "var(--yellow-bg)" };
+const packTypeLabels = { growth: "Growth & Ads", content: "Content & Brand", products: "Products & Launch", operator: "Operator & Systems" };
+
+const packGrid = document.getElementById('packGrid');
+
+PACKS.forEach(pack => {
+  const card = document.createElement('div');
+  card.className = 'card pack-card';
+  card.dataset.packtype = pack.type;
+
+  const routerHtml = pack.router
+    ? `<button type="button" class="pack-router-btn" data-cmd="/${pack.router}" title="Click to copy /${pack.router}">/${pack.router}</button>`
+    : '';
+  const chipsHtml = pack.skills.map(s =>
+    `<button type="button" class="pack-chip" data-cmd="/${s}" title="Click to copy /${s}">/${s}</button>`
+  ).join('');
+
+  card.innerHTML = `
+    <div class="pack-header">
+      <span class="pack-badge" style="background:${packTypeBgs[pack.type]};color:${packTypeColors[pack.type]};">${packTypeLabels[pack.type]}</span>
+      <span class="pack-price">${pack.price}</span>
+    </div>
+    <div class="pack-name">${pack.name}</div>
+    <div class="pack-desc">${pack.desc}</div>
+    ${routerHtml}
+    <div class="pack-skills-label">${pack.skills.length} skills · click any to copy</div>
+    <div class="pack-skills">${chipsHtml}</div>
+  `;
+
+  card.querySelectorAll('[data-cmd]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      copyOps(btn.dataset.cmd);
+      recordCopy(btn.dataset.cmd.slice(1));
+      const prevBg = btn.style.background, prevBc = btn.style.borderColor, prevCol = btn.style.color;
+      btn.style.background = 'var(--green-bg)';
+      btn.style.borderColor = 'rgba(22,163,74,0.35)';
+      btn.style.color = 'var(--green)';
+      setTimeout(() => { btn.style.background = prevBg; btn.style.borderColor = prevBc; btn.style.color = prevCol; }, 1000);
+    });
+  });
+
+  packGrid.appendChild(card);
+});
+
+document.getElementById('statPacks').textContent = PACKS.length;
+document.getElementById('packsTitle').textContent = `${PACKS.length} packs. Skills bundled into routers.`;
+
+let activePackType = 'all';
+function filterPacks(type, btn) {
+  activePackType = type;
+  document.querySelectorAll('#packTypeRow .filter-pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  packGrid.querySelectorAll('.pack-card').forEach(card => {
+    card.classList.toggle('hidden', !(type === 'all' || card.dataset.packtype === type));
+  });
+}
 
 // ── View toggle (grid / list) ────────────────────
 const viewToggle = document.getElementById('viewToggle');
