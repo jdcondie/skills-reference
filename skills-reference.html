@@ -733,7 +733,14 @@ nav {
   border-top: 1px solid var(--gray-100); padding-top: 10px; margin-bottom: 8px;
 }
 .pack-skills {
-  display: flex; flex-wrap: wrap; gap: 5px; margin-top: auto;
+  display: flex; flex-direction: column; gap: 4px; margin-top: auto;
+}
+.pack-skill-row {
+  display: flex; gap: 8px; align-items: baseline;
+}
+.pack-skill-row .pack-chip { flex-shrink: 0; }
+.pack-skill-desc {
+  font-size: 10.5px; color: var(--gray-500); line-height: 1.35;
 }
 .pack-chip {
   font-family: 'SF Mono','Fira Code','Menlo','Consolas', monospace;
@@ -3682,6 +3689,79 @@ const PACKS = [
     skills: ["claude-managed-agents","course-to-skills","file-organizer","prompt-master","setting-up-mcps","skill-auto-improve","skill-opportunity-mapper","skillcreator-extract-workshop","skillcreator-interview-workshop","write-course-with-ai"] },
 ];
 
+const SKILL_DESC = {
+  // CRO Pack
+  "5-second-cro": "10-point above-the-fold audit",
+  "ab-test-result-interpreter": "Read A/B results, get next tests",
+  "ai-powered-cro-analysis": "Live-data CRO audit on any URL",
+  "competitor-conversion-teardown": "Tear down a competitor's funnel",
+  "conversion-drop-diagnostics": "Find the cause of a CVR drop",
+  "cro-audit": "Router for CRO audits",
+  "cro-opportunities-memo": "Client-facing wins memo (DOCX)",
+  "cro-site-audit": "Polished CRO audit PDF",
+  "funnel-leak-detection": "Find the worst-leaking funnel step",
+  "hypothesis-generator": "Research into 10 ICE-scored hypotheses",
+  "landing-page-auditor": "Audit a landing page's copy",
+  "landing-page-rewrite": "Rewrite a page around the offer",
+  "mobile-friction-diagnostic": "15-point mobile friction audit",
+  "pdp-teardown": "Audit a DTC product page",
+  "test-prioritization-matrix": "Rank tests by ICE / PIE",
+  // Writing Core
+  "audience-research": "Map audience and competitors",
+  "copy-strategy-foundation": "Set copy strategy before writing",
+  "hook-generator": "7 hook formulas for any copy",
+  "sales-letter-writer": "Write an AI sales letter",
+  "sales-letter-reverse-engineer": "Turn a winning letter into a template",
+  "legendary-letter-prompts": "Write with legendary letter frameworks",
+  "gary-halbert-audit": "Audit copy on Halbert's 17 rules",
+  "content-research-writer": "Researched long-form writing",
+  // YouTube Creator
+  "hook-writer": "20 first-3-second video hooks",
+  "pb15-video-script-system": "TikTok / video script batches",
+  "scriptwriting-engine": "Scripts for YouTube, ads, VSLs",
+  "thumbnail-prompt-builder": "5 thumbnail image prompts",
+  "title-lab": "21 viral title variations",
+  "video-prompt-enhancer": "Sharpen a video-gen prompt",
+  "video-strategy-mapper": "Map ideas into a content system",
+  // Productized Deliverables
+  "creative-strategist": "Fresh ad concepts + competitor scan",
+  "google-ads-audit": "Full Google Ads account audit",
+  "dtc-second-brain": "Brand knowledge base for AI",
+  "meta-bulk-uploader": "Bulk-upload Meta ads",
+  "influencer-outreach": "Creator sourcing + outreach",
+  "advertorial-generator": "Advertorial landing pages",
+  "ai-video-search": "Searchable video transcript index",
+  // Operator Pack
+  "decision-making-gym": "Work through a hard decision",
+  "radical-clarity": "Guided clarity journaling session",
+  "mental-performance": "Visualization and mental rehearsal",
+  "stack-your-wins": "Turn a goal into an 8-week quest",
+  "second-brain": "Turn PDFs into Notion-ready notes",
+  "productivity-ops": "All-in-one productivity and ops",
+  "organize-machine": "GTD-organize your computer",
+  "file-organizer": "Sort and declutter your files",
+  "folder-architect": "Design a folder structure",
+  "gtd-file-sorter": "Sort Downloads into GTD buckets",
+  "screenshot-scanner": "Scan and organize screenshots",
+  "weekly-review": "5-minute weekly cleanup",
+  "morning-ops-briefing": "Daily industry scan + priorities",
+  "the-rewrite-layout": "Build workbook / journal DOCX",
+  "newsletter-engine": "Front door for newsletter production",
+  "speech-writer": "Write a speech from scratch",
+  "speech-coach": "Coach delivery on a draft",
+  "conversation-analyst": "Analyze a conversation transcript",
+  // Skill Builder
+  "claude-managed-agents": "Deploy cloud-hosted Claude agents",
+  "course-to-skills": "Turn a course into skills",
+  "prompt-master": "Generate optimized AI prompts",
+  "setting-up-mcps": "Connect Claude to MCP tools",
+  "skill-auto-improve": "Passive skill self-improvement loop",
+  "skill-opportunity-mapper": "Find skill opportunities in your work",
+  "skillcreator-extract-workshop": "Turn content into a skill",
+  "skillcreator-interview-workshop": "Build a skill via interview",
+  "write-course-with-ai": "30-day course build workflow",
+};
+
 const packTypeColors = { growth: "var(--orange)", content: "var(--blue)", products: "var(--green)", operator: "var(--yellow)" };
 const packTypeBgs = { growth: "var(--orange-light)", content: "var(--blue-bg)", products: "var(--green-bg)", operator: "var(--yellow-bg)" };
 const packTypeLabels = { growth: "Growth & Ads", content: "Content & Brand", products: "Products & Launch", operator: "Operator & Systems" };
@@ -3697,7 +3777,10 @@ PACKS.forEach(pack => {
     ? `<button type="button" class="pack-router-btn" data-cmd="/${pack.router}" title="Click to copy /${pack.router}">/${pack.router}</button>`
     : '';
   const chipsHtml = pack.skills.map(s =>
-    `<button type="button" class="pack-chip" data-cmd="/${s}" title="Click to copy /${s}">/${s}</button>`
+    `<div class="pack-skill-row">
+      <button type="button" class="pack-chip" data-cmd="/${s}" title="Click to copy /${s}">/${s}</button>
+      <span class="pack-skill-desc">${SKILL_DESC[s] || ''}</span>
+    </div>`
   ).join('');
 
   card.innerHTML = `
